@@ -10,18 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
+
+    /**
+     * Field yang digunakan untuk login.
+     */
+    public function username()
+    {
+        return 'username';
+    }
 
     /**
      * Where to redirect users after login.
@@ -40,12 +37,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated(Request $request, $user) {
+    /**
+     * Setelah berhasil login.
+     */
+    protected function authenticated(Request $request, $user)
+    {
         if ($user->is_active != 1) {
             Auth::logout();
 
             return back()->with([
-                'account_deactivated' => 'Your account is deactivated! Please contact with Super Admin.'
+                'account_deactivated' =>
+                    'Your account is deactivated! Please contact with Super Admin.'
             ]);
         }
 

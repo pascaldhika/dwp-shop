@@ -41,10 +41,10 @@
                                       <i class="bi bi-person"></i>
                                     </span>
                             </div>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                   name="email" value="{{ old('email') }}"
-                                   placeholder="Email">
-                            @error('email')
+                            <input id="username" type="text" class="form-control @error('username') is-invalid @enderror"
+                                   name="username" value="{{ old('username') }}"
+                                   placeholder="Username">
+                            @error('username')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -84,7 +84,7 @@
 
             <p class="text-center mt-5 lead">
                 Developed By
-                <a href="#" class="font-weight-bold text-primary">Monika</a>
+                <a href="#" class="font-weight-bold text-primary">UPT PPD Ponorogo</a>
             </p>
         </div>
     </div>
@@ -96,13 +96,13 @@
 <script>
     let login = document.getElementById('login');
     let submit = document.getElementById('submit');
-    let email = document.getElementById('email');
+    let username = document.getElementById('username');
     let password = document.getElementById('password');
     let spinner = document.getElementById('spinner')
 
     login.addEventListener('submit', (e) => {
         submit.disabled = true;
-        email.readonly = true;
+        username.readonly = true;
         password.readonly = true;
 
         spinner.style.display = 'block';
@@ -112,7 +112,7 @@
 
     setTimeout(() => {
         submit.disabled = false;
-        email.readonly = false;
+        username.readonly = false;
         password.readonly = false;
 
         spinner.style.display = 'none';

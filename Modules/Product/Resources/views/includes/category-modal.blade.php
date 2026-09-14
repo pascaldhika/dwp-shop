@@ -15,16 +15,16 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="category_code">Category Code <span class="text-danger">*</span></label>
+                        <label for="category_code">Kode <span class="text-danger">*</span></label>
                         <input class="form-control" type="text" name="category_code" required value="{{ $category_code }}">
                     </div>
                     <div class="form-group">
-                        <label for="category_name">Category Name <span class="text-danger">*</span></label>
+                        <label for="category_name">Nama Kategori <span class="text-danger">*</span></label>
                         <input class="form-control" type="text" name="category_name" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Create <i class="bi bi-check"></i></button>
+                    <button type="submit" class="btn btn-primary">Buat <i class="bi bi-check"></i></button>
                 </div>
             </form>
         </div>
