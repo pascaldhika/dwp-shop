@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create User')
+@section('title', 'Buat User')
 
 @section('third_party_stylesheets')
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"/>
@@ -24,7 +24,7 @@
                 <div class="col-lg-12">
                     @include('utils.alerts')
                     <div class="form-group">
-                        <button class="btn btn-primary">Create User <i class="bi bi-check"></i></button>
+                        <button class="btn btn-primary">Buat User <i class="bi bi-check"></i></button>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -39,8 +39,8 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="email">Email <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="email" name="email" required>
+                                        <label for="username">Username <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text" name="username" required>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                             <div class="form-group">
                                 <label for="role">Role <span class="text-danger">*</span></label>
                                 <select class="form-control" name="role" id="role" required>
-                                    <option value="" selected disabled>Select Role</option>
+                                    <option value="" selected disabled>Pilih Role</option>
                                     @foreach(\Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get() as $role)
                                         <option value="{{ $role->name }}">{{ $role->name }}</option>
                                     @endforeach
@@ -71,9 +71,19 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="role">Pelanggan <span class="text-danger">*</span></label>
+                                <select class="form-control" name="customer" id="customer" required>
+                                    <option value="" selected disabled>Pilih Pelanggan</option>
+                                    @foreach(\Modules\People\Entities\Customer::all() as $customer)
+                                        <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="is_active">Status <span class="text-danger">*</span></label>
                                 <select class="form-control" name="is_active" id="is_active" required>
-                                    <option value="" selected disabled>Select Status</option>
+                                    <option value="" selected disabled>Pilih Status</option>
                                     <option value="1">Active</option>
                                     <option value="2">Deactive</option>
                                 </select>

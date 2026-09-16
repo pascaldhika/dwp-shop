@@ -33,14 +33,15 @@ class UsersController extends Controller
 
         $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|max:255|unique:users,email',
+            'username'    => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:8|max:255|confirmed'
         ]);
 
         $user = User::create([
             'name'     => $request->name,
-            'email'    => $request->email,
+            'username'    => $request->username,
             'password' => Hash::make($request->password),
+            'customer_id' => $request->customer,
             'is_active' => $request->is_active
         ]);
 
@@ -50,9 +51,9 @@ class UsersController extends Controller
             $tempFile = Upload::where('folder', $request->image)->first();
 
             if ($tempFile) {
-                $user->addMedia(Storage::path('public/temp/' . $request->image . '/' . $tempFile->filename))->toMediaCollection('avatars');
+                $user->addMedia(Storage::path('temp/' . $request->image . '/' . $tempFile->filename))->toMediaCollection('avatars');
 
-                Storage::deleteDirectory('public/temp/' . $request->image);
+                Storage::deleteDirectory('temp/' . $request->image);
                 $tempFile->delete();
             }
         }
@@ -75,12 +76,13 @@ class UsersController extends Controller
 
         $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|max:255|unique:users,email,'.$user->id,
+            'username'    => 'required|string|max:255|unique:users,username,'.$user->id,
         ]);
 
         $user->update([
             'name'     => $request->name,
-            'email'    => $request->email,
+            'username'    => $request->username,
+            'customer_id' => $request->customer,
             'is_active' => $request->is_active
         ]);
 
@@ -94,9 +96,9 @@ class UsersController extends Controller
             }
 
             if ($tempFile) {
-                $user->addMedia(Storage::path('public/temp/' . $request->image . '/' . $tempFile->filename))->toMediaCollection('avatars');
+                $user->addMedia(Storage::path('temp/' . $request->image . '/' . $tempFile->filename))->toMediaCollection('avatars');
 
-                Storage::deleteDirectory('public/temp/' . $request->image);
+                Storage::deleteDirectory('temp/' . $request->image);
                 $tempFile->delete();
             }
         }

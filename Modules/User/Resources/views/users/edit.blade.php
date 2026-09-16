@@ -40,8 +40,8 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="email">Email <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="email" name="email" required value="{{ $user->email }}">
+                                        <label for="username">Username <span class="text-danger">*</span></label>
+                                        <input class="form-control" type="text" name="username" required value="{{ $user->username }}">
                                     </div>
                                 </div>
                             </div>
@@ -51,6 +51,16 @@
                                 <select class="form-control" name="role" id="role" required>
                                     @foreach(\Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get() as $role)
                                         <option {{ $user->hasRole($role->name) ? 'selected' : '' }} value="{{ $role->name }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="role">Pelanggan <span class="text-danger">*</span></label>
+                                <select class="form-control" name="customer" id="customer" required>
+                                    <option value="" selected disabled>Pilih Pelanggan</option>
+                                    @foreach(\Modules\People\Entities\Customer::all() as $customer)
+                                        <option {{ ($user->customer_id == $customer->id) ? 'selected' : '' }} value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

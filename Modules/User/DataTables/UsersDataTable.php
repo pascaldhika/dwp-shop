@@ -77,7 +77,7 @@ class UsersDataTable extends DataTable
             Column::make('name')
                 ->className('text-center align-middle'),
 
-            Column::make('email')
+            Column::make('username')
                 ->className('text-center align-middle'),
 
             Column::computed('role')

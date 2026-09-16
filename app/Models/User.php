@@ -25,6 +25,7 @@ class User extends Authenticatable implements HasMedia
         'name',
         'username',
         'password',
+        'customer_id',
         'is_active'
     ];
 

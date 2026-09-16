@@ -205,19 +205,25 @@
                 prefix:'{{ settings()->currency->symbol }}',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
+                precision: 0
             });
             $('#product_price').maskMoney({
                 prefix:'{{ settings()->currency->symbol }}',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
+                precision: 0
             });
 
             $('#product_cost').maskMoney('mask');
             $('#product_price').maskMoney('mask');
 
             $('#product-form').submit(function () {
-                var product_cost = $('#product_cost').maskMoney('unmasked')[0];
-                var product_price = $('#product_price').maskMoney('unmasked')[0];
+                var product_cost = $('#product_cost').val();
+                product_cost = product_cost.replace(/\D/g, '');
+
+                var product_price = $('#product_price').val();
+                product_price = product_price.replace(/\D/g, '');
+                
                 $('#product_cost').val(product_cost);
                 $('#product_price').val(product_price);
             });

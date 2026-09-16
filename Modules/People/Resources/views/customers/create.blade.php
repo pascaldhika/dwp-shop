@@ -12,7 +12,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('customers.store') }}" method="POST">
+        <form id="customer-form" action="{{ route('customers.store') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-lg-12">
@@ -71,7 +71,14 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="col-lg-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="min_order">Minimal Order <span class="text-danger">*</span></label>
+                                        <input id="min_order" type="text" class="form-control" name="min_order" required value="{{ old('min_order') }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="address">Address <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="address" required>
@@ -86,3 +93,22 @@
     </div>
 @endsection
 
+@push('page_scripts')
+    <script src="{{ asset('js/jquery-mask-money.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#min_order').maskMoney({
+                prefix:'{{ settings()->currency->symbol }}',
+                thousands:'{{ settings()->currency->thousand_separator }}',
+                decimal:'{{ settings()->currency->decimal_separator }}',
+                precision: 0
+            });
+
+            $('#customer-form').submit(function () {
+                var min_order = $('#min_order').val();
+                min_order = min_order.replace(/\D/g, '');
+                $('#min_order').val(min_order);
+            });
+        });
+    </script>
+@endpush

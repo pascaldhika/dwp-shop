@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create Product')
+@section('title', 'Buat Produk')
 
 @section('breadcrumb')
     <ol class="breadcrumb border-0 m-0">
@@ -105,7 +105,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="product_order_tax">Pajak (%)</label>
-                                        <input type="number" class="form-control" name="product_order_tax" value="{{ old('product_order_tax') }}" min="0">
+                                        <input type="number" class="form-control" name="product_order_tax" value="{{ old('product_order_tax', 0) }}" min="0">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -222,16 +222,22 @@
                 prefix:'{{ settings()->currency->symbol }}',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
+                precision: 0
             });
             $('#product_price').maskMoney({
                 prefix:'{{ settings()->currency->symbol }}',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
+                precision: 0
             });
 
             $('#product-form').submit(function () {
-                var product_cost = $('#product_cost').maskMoney('unmasked')[0];
-                var product_price = $('#product_price').maskMoney('unmasked')[0];
+                var product_cost = $('#product_cost').val();
+                product_cost = product_cost.replace(/\D/g, '');
+
+                var product_price = $('#product_price').val();
+                product_price = product_price.replace(/\D/g, '');
+
                 $('#product_cost').val(product_cost);
                 $('#product_price').val(product_price);
             });

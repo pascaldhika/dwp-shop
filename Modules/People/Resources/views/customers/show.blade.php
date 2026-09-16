@@ -43,6 +43,10 @@
                                     <td>{{ $customer->country }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Minimal Order</th>
+                                    <td>{{ format_currency($customer->min_order) }}</td>
+                                </tr>
+                                <tr>
                                     <th>Address</th>
                                     <td>{{ $customer->address }}</td>
                                 </tr>
