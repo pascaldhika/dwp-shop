@@ -84,7 +84,7 @@
 
             <p class="text-center mt-5 lead">
                 Developed By
-                <a href="#" class="font-weight-bold text-primary">UPT PPD Ponorogo</a>
+                <a href="#" class="font-weight-bold text-primary">DWP UPT PPD Ponorogo</a>
             </p>
         </div>
     </div>

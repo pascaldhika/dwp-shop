@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Katalog || {{ config('app.name') }}</title>
+    <meta
+      name="description"
+      content="Browse the menu, build your order and check out — a responsive, mobile-first food ordering interface."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  </head>
+  <body>
+    <!-- ===== Header ===== -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="#" class="logo">Toko<span>Lestari</span></a>
+        <button
+          class="cart-toggle"
+          id="cartToggle"
+          aria-label="Open cart"
+          aria-expanded="false"
+          aria-controls="cartDrawer"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path
+              d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+            />
+          </svg>
+          <span class="cart-toggle__badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero__content">
+        <p class="hero__eyebrow">DWP UPT PPD Ponorogo</p>
+        <h1 class="hero__title">Selamat berbelanja,<br />di Toko Lestari.</h1>
+        <p class="hero__sub">
+          Pick your dishes, build your ticket, send it to the kitchen. No
+          account, no hassle — just lunch.
+        </p>
+        <!-- <a href="#menu" class="btn btn--primary">View the menu</a> -->
+      </div>
+    </section>
+
+    <!-- ===== Search + Category filter ===== -->
+    <div class="menu-filter">
+
+        <div class="search-box">
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+            </svg>
+
+            <input
+                type="search"
+                id="productSearch"
+                placeholder="Cari produk..."
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="clearSearch"
+                class="search-box__clear"
+                aria-label="Hapus pencarian"
+                hidden
+            >
+                &times;
+            </button>
+        </div>
+
+        <nav class="category-nav" id="categoryNav" aria-label="Menu categories">
+            <button class="chip is-active" data-category="all">
+                All
+            </button>
+
+            @foreach(\Modules\Product\Entities\Category::all() as $category)
+                <button
+                    class="chip"
+                    data-category="{{ $category->category_name }}"
+                >
+                    {{ $category->category_name }}
+                </button>
+            @endforeach
+        </nav>
+
+    </div>
+
+    <!-- ===== Menu ===== -->
+    <main>
+      <section class="menu" id="menu">
+        <div class="menu__grid" id="menuGrid" aria-live="polite">
+          <!-- menu cards injected by script.js -->
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="site-footer">
+      <p class="site-footer__links">
+        <a href="#">Contact</a> · <a href="#">Privacy</a> · <a href="#">FAQ</a>
+      </p>
+      <p class="site-footer__copy">© {{ date('Y') }} DWP UPT PPD Ponorogo</p>
+    </footer>
+
+    <!-- ===== Sticky mobile order bar ===== -->
+    <button class="order-bar" id="orderBar" hidden>
+      <span id="orderBarCount">0 items</span>
+      <span class="order-bar__divider">·</span>
+      <span id="orderBarTotal">$0.00</span>
+      <span class="order-bar__cta">Checkout →</span>
+    </button>
+
+    <!-- ===== Cart drawer (the "kitchen ticket") ===== -->
+    <div class="cart-scrim" id="cartScrim"></div>
+    <aside
+      class="cart-drawer"
+      id="cartDrawer"
+      aria-label="Your order"
+      aria-hidden="true"
+    >
+      <div class="ticket">
+        <div class="ticket__head">
+          <h2>Keranjang Belanja</h2>
+          <button class="ticket__close" id="cartClose" aria-label="Close cart">
+            &times;
+          </button>
+        </div>
+        <p class="ticket__meta" id="ticketMeta">
+          Ticket #— · <span id="ticketDate"></span>
+        </p>
+
+        <div class="ticket__items" id="cartItems">
+          <!-- cart line items injected by script.js -->
+        </div>
+
+        <div class="ticket__empty" id="cartEmpty">
+          <p>Keranjang belanja masih kosong.</p>
+          <p class="ticket__empty-sub">Tambahkan produk dari Menu.</p>
+        </div>
+
+        <div class="ticket__divider" aria-hidden="true"></div>
+
+        <div class="ticket__totals">
+          <!-- <div class="ticket__row">
+            <span>Subtotal</span>
+            <span id="cartSubtotal">$0.00</span>
+          </div> -->
+          <div class="ticket__row ticket__row--total">
+            <span>Total</span>
+            <span id="cartTotal">$0.00</span>
+          </div>
+        </div>
+
+        <button class="btn btn--primary btn--block" id="checkoutBtn">
+          Simpan
+        </button>
+      </div>
+    </aside>
+
+    <!-- ===== Toast ===== -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  </body>
+</html>
+
+@php
+    $menuData = \Modules\Product\Entities\Product::with('category')
+        ->get()
+        ->map(function ($product) {
+            $media = $product->getFirstMedia('images');
+
+            return [
+                'id' => $product->id,
+                'name' => $product->product_name,
+                'category' => $product->category->category_name ?? '',
+                'price' => (float) $product->product_price,
+                'desc' => $product->product_note ?? '',
+                'img' => $media
+                    ? url('/media/' . str_replace('\\', '/', $media->getPathRelativeToRoot()))
+                    : asset('images/no-image.png'),
+            ];
+        })
+        ->values()
+        ->toArray();
+@endphp
+
+<script>
+    window.MENU = @json($menuData);
+</script>
+
+<script src="{{ asset('js/script.js') }}"></script>
