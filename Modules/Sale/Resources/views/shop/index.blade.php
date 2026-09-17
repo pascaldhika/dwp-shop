@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Katalog || {{ config('app.name') }}</title>
     <meta
       name="description"
@@ -24,34 +27,70 @@
   <body>
     <!-- ===== Header ===== -->
     <header class="site-header">
-      <div class="site-header__inner">
-        <a href="#" class="logo">Toko<span>Lestari</span></a>
-        <button
-          class="cart-toggle"
-          id="cartToggle"
-          aria-label="Open cart"
-          aria-expanded="false"
-          aria-controls="cartDrawer"
-        >
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="9" cy="21" r="1" />
-            <circle cx="20" cy="21" r="1" />
-            <path
-              d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-            />
-          </svg>
-          <span class="cart-toggle__badge" id="cartCount">0</span>
-        </button>
-      </div>
+        <div class="site-header__inner">
+
+            <a href="#" class="logo">
+                Toko<span>Lestari</span>
+            </a>
+
+            <div class="site-header__actions">
+
+                {{-- Riwayat Transaksi --}}
+                <a
+                    class="cart-toggle"
+                    href=""
+                    aria-label="Riwayat transaksi"
+                    aria-expanded="false"
+                    aria-controls="cartDrawer"
+                    title="Riwayat Transaksi"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M3 3v5h5" />
+                        <path d="M3.05 13a9 9 0 1 0 2.13-5.36L3 8" />
+                        <path d="M12 7v5l3 2" />
+                    </svg>
+                </a>
+
+                {{-- Keranjang --}}
+                <button
+                    class="cart-toggle"
+                    id="cartToggle"
+                    aria-label="Open cart"
+                    aria-expanded="false"
+                    aria-controls="cartDrawer"
+                    title="Keranjang Belanja"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path
+                            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                        />
+                    </svg>
+
+                    <span class="cart-toggle__badge" id="cartCount">0</span>
+                </button>
+
+            </div>
+        </div>
     </header>
 
     <!-- ===== Hero ===== -->
@@ -221,6 +260,8 @@
 
 <script>
     window.MENU = @json($menuData);
+    window.SHOP_INDEX_URL = @json(route('app.shop.index'));
+    window.SHOP_STORE_URL = @json(route('app.shop.store'));
 </script>
 
 <script src="{{ asset('js/script.js') }}"></script>

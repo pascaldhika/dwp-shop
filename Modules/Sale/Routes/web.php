@@ -57,4 +57,5 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Shop
     Route::get('/app/shop', 'ShopController@index')->name('app.shop.index');
+    Route::post('/app/shop', 'ShopController@store')->name('app.shop.store');
 });

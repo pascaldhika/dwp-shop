@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\Permission\Traits\HasRoles;
+use Modules\People\Entities\Customer;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -58,5 +59,9 @@ class User extends Authenticatable implements HasMedia
 
     public function scopeIsActive(Builder $builder) {
         return $builder->where('is_active', 1);
+    }
+
+    public function customer() {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 }

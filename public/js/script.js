@@ -252,7 +252,7 @@
       renderCart();
 
       if (!quiet) {
-          showToast(`Added ${dish.name} to your ticket`);
+          showToast(`Menambahkan ${dish.name} ke keranjang belanja.`);
       }
   }
 
@@ -335,15 +335,7 @@
     if (e.key === "Escape") closeCart();
   });
 
-  checkoutBtn.addEventListener("click", () => {
-    if (cartItemCount() === 0) return;
-    showToast("Pesanan terkirim — Terimakasih!");
-    cart = {};
-    renderMenu();
-    renderCart();
-    setTicketMeta();
-    closeCart();
-  });
+  checkoutBtn.addEventListener("click", checkout);
 
   productSearch.addEventListener("input", () => {
 
@@ -370,4 +362,97 @@
   renderMenu();
   renderCart();
   setTicketMeta();
+
+  async function checkout() {
+    if (Object.keys(cart).length === 0) {
+        showToast("Keranjang masih kosong");
+        return;
+    }
+
+    const items = Object.entries(cart).map(([id, qty]) => {
+        const dish = findDish(id);
+
+        if (!dish) {
+            return null;
+        }
+
+        return {
+            product_id: dish.id,
+            quantity: qty
+        };
+    }).filter(item => item !== null);
+
+    if (items.length === 0) {
+        showToast("Produk dalam keranjang tidak ditemukan");
+        return;
+    }
+
+    const totalAmount = items.reduce((total, item) => {
+        const dish = findDish(item.product_id);
+
+        return total + (Number(dish.price) * item.quantity);
+    }, 0);
+
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = "Menyimpan...";
+
+    try {
+      const response = await fetch(window.SHOP_STORE_URL, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "X-CSRF-TOKEN": document
+                  .querySelector('meta[name="csrf-token"]')
+                  .getAttribute("content")
+          },
+          body: JSON.stringify({
+              customer_id: 1,
+              tax_percentage: 0,
+              discount_percentage: 0,
+              shipping_amount: 0,
+              paid_amount: totalAmount,
+              total_amount: totalAmount,
+              payment_method: "Cash",
+              note: "",
+              items: items
+          })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || data.success === false) {
+          console.error(data);
+
+          showToast(
+              data.message || "Gagal menyimpan transaksi"
+          );
+
+          return;
+      }
+
+      // Berhasil
+      localStorage.removeItem("cart");
+
+      cart = {};
+
+      renderMenu();
+      renderCart();
+
+      showToast("Transaksi berhasil disimpan");
+
+      setTimeout(() => {
+          window.location.href = window.SHOP_INDEX_URL;
+      }, 3000);    
+
+    } catch (error) {
+        console.error(error);
+
+        showToast(error.message || "Gagal menyimpan transaksi");
+
+    } finally {
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = "Simpan";
+    }
+  }
 })();

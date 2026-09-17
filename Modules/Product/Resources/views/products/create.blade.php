@@ -90,7 +90,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_quantity">Jumlah <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="product_quantity" required value="{{ old('product_quantity', 1) }}" min="1">
+                                        <input type="number" class="form-control" name="product_quantity" required value="{{ old('product_quantity', 9999) }}" min="1">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

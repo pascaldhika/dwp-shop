@@ -10,13 +10,11 @@
 
 </ul>
 <ul class="c-header-nav ml-auto mr-4">
-    @can('create_pos_sales')
     <li class="c-header-nav-item mr-3">
-        <a class="btn btn-primary btn-pill {{ request()->routeIs('app.pos.index') ? 'disabled' : '' }}" href="{{ route('app.pos.index') }}">
-            <i class="bi bi-cart mr-1"></i> POS System
+        <a class="btn btn-primary btn-pill {{ request()->routeIs('app.shop.index') ? 'disabled' : '' }}" href="{{ route('app.shop.index') }}">
+            <i class="bi bi-cart mr-1"></i> Toko Lestari
         </a>
     </li>
-    @endcan
     @can('show_notifications')
     <li class="c-header-nav-item dropdown d-md-down-none mr-2">
         <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -49,7 +47,17 @@
         <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button"
            aria-haspopup="true" aria-expanded="false">
             <div class="c-avatar mr-2">
-                <img class="c-avatar rounded-circle" src="{{ auth()->user()->getFirstMediaUrl('avatars') }}" alt="Profile Image">
+                @php
+                    $media = auth()->user()->getFirstMedia('avatars');
+                @endphp
+
+                <img
+                    class="c-avatar rounded-circle"
+                    src="{{ $media
+                        ? url('/media/' . str_replace('\\', '/', $media->getPathRelativeToRoot()))
+                        : asset('images/default-avatar.png') }}"
+                    alt="Profile Image"
+                >
             </div>
             <div class="d-flex flex-column">
                 <span class="font-weight-bold">{{ auth()->user()->name }}</span>
