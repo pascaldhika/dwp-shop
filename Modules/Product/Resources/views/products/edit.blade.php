@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Product')
+@section('title', 'Edit Produk')
 
 @section('breadcrumb')
     <ol class="breadcrumb border-0 m-0">
@@ -19,7 +19,7 @@
                 <div class="col-lg-12">
                     @include('utils.alerts')
                     <div class="form-group">
-                        <button class="btn btn-primary">Update Product <i class="bi bi-check"></i></button>
+                        <button class="btn btn-primary">Update Produk <i class="bi bi-check"></i></button>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -28,14 +28,14 @@
                             <div class="form-row">
                                 <div class="col-md-7">
                                     <div class="form-group">
-                                        <label for="product_name">Product Name <span class="text-danger">*</span></label>
+                                        <label for="product_name">Nama Produk <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="product_name" required value="{{ $product->product_name }}">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label for="product_code">Code <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="product_code" required value="{{ $product->product_code }}">
+                                        <label for="product_code">Kode Produk <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="product_code" required value="{{ $product->product_code }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="category_id">Category <span class="text-danger">*</span></label>
+                                        <label for="category_id">Kategori <span class="text-danger">*</span></label>
                                         <select class="form-control" name="category_id" id="category_id" required>
                                             @foreach(\Modules\Product\Entities\Category::all() as $category)
                                                 <option {{ $category->id == $product->category->id ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->category_name }}</option>
@@ -69,13 +69,13 @@
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="product_cost">Cost <span class="text-danger">*</span></label>
+                                        <label for="product_cost">Harga Beli <span class="text-danger">*</span></label>
                                         <input id="product_cost" type="text" class="form-control" min="0" name="product_cost" required value="{{ $product->product_cost }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="product_price">Price <span class="text-danger">*</span></label>
+                                        <label for="product_price">Harga Jual <span class="text-danger">*</span></label>
                                         <input id="product_price" type="text" class="form-control" min="0" name="product_price" required value="{{ $product->product_price }}">
                                     </div>
                                 </div>
@@ -84,13 +84,13 @@
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="product_quantity">Quantity <span class="text-danger">*</span></label>
+                                        <label for="product_quantity">Jumlah <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="product_quantity" required value="{{ $product->product_quantity }}" min="1">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="product_stock_alert">Alert Quantity <span class="text-danger">*</span></label>
+                                        <label for="product_stock_alert">Stock Minimal <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="product_stock_alert" required value="{{ $product->product_stock_alert }}" min="0">
                                     </div>
                                 </div>
@@ -99,13 +99,13 @@
                             <div class="form-row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="product_order_tax">Tax (%)</label>
+                                        <label for="product_order_tax">Pajak (%)</label>
                                         <input type="number" class="form-control" name="product_order_tax" value="{{ $product->product_order_tax }}" min="0" max="100">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="product_tax_type">Tax type</label>
+                                        <label for="product_tax_type">Tipe Pajak</label>
                                         <select class="form-control" name="product_tax_type" id="product_tax_type">
                                             <option value="" selected>None</option>
                                             <option {{ $product->product_tax_type == 1 ? 'selected' : '' }}  value="1">Exclusive</option>
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="product_unit">Unit <i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="This short text will be placed after Product Quantity."></i> <span class="text-danger">*</span></label>
+                                        <label for="product_unit">Satuan <i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="This short text will be placed after Product Quantity."></i> <span class="text-danger">*</span></label>
                                         <select class="form-control" name="product_unit" id="product_unit" required>
                                             <option value="" selected >Select Unit</option>
                                             @foreach(\Modules\Setting\Entities\Unit::all() as $unit)
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="product_note">Note</label>
+                                <label for="product_note">Catatan</label>
                                 <textarea name="product_note" id="product_note" rows="4 " class="form-control">{{ $product->product_note }}</textarea>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="image">Product Images <i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="Max Files: 3, Max File Size: 1MB, Image Size: 400x400"></i></label>
+                                <label for="image">Gambar Produk <i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="Max Files: 3, Max File Size: 1MB, Image Size: 400x400"></i></label>
                                 <div class="dropzone d-flex flex-wrap align-items-center justify-content-center" id="document-dropzone">
                                     <div class="dz-message" data-dz-message>
                                         <i class="bi bi-cloud-arrow-up"></i>
@@ -174,25 +174,84 @@
                 uploadedDocumentMap[file.name] = response.name;
             },
             removedfile: function (file) {
-                file.previewElement.remove();
+
+                if (file.previewElement) {
+                    file.previewElement.remove();
+                }
+
                 var name = '';
+
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name;
                 } else {
                     name = uploadedDocumentMap[file.name];
                 }
-                $('form').find('input[name="document[]"][value="' + name + '"]').remove();
+
+                // Hapus hidden input
+                $('form')
+                    .find('input[name="document[]"][value="' + name + '"]')
+                    .remove();
+
+                /*
+                * Jika gambar lama dari Media Library,
+                * hapus dari Media Library.
+                */
+                if (file.media_id) {
+
+                    $.ajax({
+                        url: '{{ url("/media") }}/' + file.media_id,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        success: function (response) {
+                            console.log('Media berhasil dihapus');
+                        },
+                        error: function (xhr) {
+                            console.error('Gagal menghapus media:', xhr.responseText);
+                        }
+                    });
+                }
             },
             init: function () {
-                @if(isset($product) && $product->getMedia('images'))
-                var files = {!! json_encode($product->getMedia('images')) !!};
-                for (var i in files) {
-                    var file = files[i];
-                    this.options.addedfile.call(this, file);
-                    this.options.thumbnail.call(this, file, file.original_url);
-                    file.previewElement.classList.add('dz-complete');
-                    $('form').append('<input type="hidden" name="document[]" value="' + file.file_name + '">');
-                }
+
+                @if(isset($product))
+
+                    var files = {!! json_encode(
+                        $product->getMedia('images')->map(function ($media) {
+                            return [
+                                'media_id' => $media->id,
+                                'name'     => $media->file_name,
+                                'size'     => $media->size,
+                                'url'      => url('/media/' . $media->getPathRelativeToRoot('thumb')),
+                            ];
+                        })
+                    ) !!};
+
+                    for (var i = 0; i < files.length; i++) {
+
+                        var file = files[i];
+
+                        file.file_name = file.name;
+                        file.media_id = file.media_id;
+
+                        this.options.addedfile.call(this, file);
+
+                        this.options.thumbnail.call(
+                            this,
+                            file,
+                            file.url
+                        );
+
+                        file.previewElement.classList.add('dz-complete');
+
+                        $('form').append(
+                            '<input type="hidden" name="document[]" value="' +
+                            file.name +
+                            '">'
+                        );
+                    }
+
                 @endif
             }
         }

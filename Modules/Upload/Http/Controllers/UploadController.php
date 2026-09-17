@@ -62,7 +62,13 @@ class UploadController extends Controller
     }
 
     public function dropzoneDelete(Request $request) {
-        Storage::delete('temp/dropzone/' . $request->file_name);
+        $file = $request->input('name');
+
+        $path = storage_path('app/temp/dropzone/' . $file);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
 
         return response()->json($request->file_name, 200);
     }

@@ -20,7 +20,20 @@ class ProductDataTable extends DataTable
                 return view('product::products.partials.actions', compact('data'));
             })
             ->addColumn('product_image', function ($data) {
-                $url = $data->getFirstMediaUrl('images', 'thumb');
+                $media = $data->getFirstMedia('images');
+
+                if (!$media) {
+                    return '-';
+                }
+
+                $fullPath = $media->getPath('thumb');
+
+                $publicPath = storage_path('app/public');
+
+                $path = str_replace($publicPath . DIRECTORY_SEPARATOR, '', $fullPath);
+
+                $url = url('/media/' . str_replace('\\', '/', $path));
+
                 return '<img src="'.$url.'" border="0" width="50" class="img-thumbnail" align="center"/>';
             })
             ->addColumn('product_price', function ($data) {

@@ -27,7 +27,18 @@ class ProductController extends Controller
     public function create() {
         abort_if(Gate::denies('create_products'), 403);
 
-        return view('product::products.create');
+        // Ambil kode produk terakhir
+        $lastProduct = Product::orderBy('id', 'desc')->first();
+
+        if ($lastProduct && is_numeric($lastProduct->product_code)) {
+            $number = (int) $lastProduct->product_code + 1;
+        } else {
+            $number = 1;
+        }
+
+        $productCode = str_pad($number, 7, '0', STR_PAD_LEFT);
+
+        return view('product::products.create', compact('productCode'));
     }
 
 
@@ -60,25 +71,43 @@ class ProductController extends Controller
     }
 
 
-    public function update(UpdateProductRequest $request, Product $product) {
+    public function update(UpdateProductRequest $request, Product $product)
+    {
         $product->update($request->except('document'));
 
-        if ($request->has('document')) {
-            if (count($product->getMedia('images')) > 0) {
-                foreach ($product->getMedia('images') as $media) {
-                    if (!in_array($media->file_name, $request->input('document', []))) {
-                        $media->delete();
-                    }
-                }
+        $documents = $request->input('document', []);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil media yang masih ada
+        |--------------------------------------------------------------------------
+        */
+        $existingMedia = $product->getMedia('images')
+            ->pluck('file_name')
+            ->toArray();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Tambahkan file baru dari Dropzone
+        |--------------------------------------------------------------------------
+        */
+        foreach ($documents as $file) {
+
+            // File sudah ada di Media Library
+            if (in_array($file, $existingMedia)) {
+                continue;
             }
 
-            $media = $product->getMedia('images')->pluck('file_name')->toArray();
+            $tempPath = storage_path('app/temp/dropzone/' . $file);
 
-            foreach ($request->input('document', []) as $file) {
-                if (count($media) === 0 || !in_array($file, $media)) {
-                    $product->addMedia(Storage::path('temp/dropzone/' . $file))->toMediaCollection('images');
-                }
+            // Pastikan file temporary masih ada
+            if (!file_exists($tempPath)) {
+                continue;
             }
+
+            $product
+                ->addMedia($tempPath)
+                ->toMediaCollection('images');
         }
 
         toast('Product Updated!', 'info');

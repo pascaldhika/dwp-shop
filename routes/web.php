@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,27 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('payment-flow.chart');
 });
 
+Route::get('/media/{path}', function ($path) {
+    $path = urldecode($path);
+
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404, 'File tidak ditemukan: ' . $path);
+    }
+
+    return response()->file(
+        Storage::disk('public')->path($path)
+    );
+})->where('path', '.*')->name('media.show');
+
+Route::delete('/media/{media}', function ($media) {
+
+    $media = \Spatie\MediaLibrary\MediaCollections\Models\Media::findOrFail($media);
+
+    $media->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Media berhasil dihapus'
+    ]);
+
+})->middleware('auth');
