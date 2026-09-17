@@ -1,0 +1,506 @@
+/* =========================================================
+   Tasty Bites — Design Tokens
+   ========================================================= */
+:root {
+  /* Color */
+  --cream: #fff8f0;
+  --ink: #2b2420;
+  --ink-soft: #6b6058;
+  --chili: #e4572e;
+  --chili-dark: #c43f1d;
+  --basil: #4f6f52;
+  --mustard: #f2a93b;
+  --paper: #ffffff;
+  --line: #ece2d6;
+
+  /* Type */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "Space Mono", "Courier New", monospace;
+
+  /* Layout */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 10px 30px rgba(43, 36, 32, 0.08);
+  --header-h: 64px;
+  --order-bar-h: 60px;
+}
+
+/* =========================================================
+   Reset
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--cream);
+  color: var(--ink);
+  line-height: 1.6;
+  padding-bottom: calc(var(--order-bar-h) + 16px);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--header-h);
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header__inner {
+  max-width: 1080px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.logo span {
+  color: var(--chili);
+}
+
+.cart-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: var(--ink);
+  transition: background-color 0.15s ease;
+}
+
+.cart-toggle:hover {
+  background-color: var(--line);
+}
+
+.cart-toggle__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--chili);
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform 0.12s ease, background-color 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--chili);
+  color: white;
+}
+
+.btn--primary:hover {
+  background: var(--chili-dark);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.site-footer {
+  text-align: center;
+  padding: 32px 20px 24px;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+
+.site-footer__links a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-footer__copy {
+  margin-top: 6px;
+}
+
+/* =========================================
+   HALAMAN RIWAYAT TRANSAKSI
+   ========================================= */
+
+.transaction-history {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Card transaksi */
+.transaction-card {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 14px;
+
+    padding: 20px;
+    margin: 0;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .04);
+}
+
+/* Header card */
+.transaction-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.transaction-card__label {
+    margin: 0 0 5px;
+    font-size: 12px;
+    opacity: .6;
+}
+
+.transaction-card__code {
+    margin: 0;
+    font-family: "Space Mono", monospace;
+    font-size: 16px;
+}
+
+.transaction-card__date {
+    text-align: right;
+    font-size: 13px;
+    opacity: .65;
+}
+
+/* Bagian total */
+.transaction-card__body {
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(0, 0, 0, .15);
+}
+
+.transaction-card__body div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.transaction-card__body strong {
+    font-family: "Space Mono", monospace;
+    font-size: 18px;
+}
+
+/* Footer card */
+.transaction-card__footer {
+    margin-top: 16px;
+    padding-top: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-top: 1px dashed rgba(0, 0, 0, .15);
+}
+
+.transaction-card__footer > span {
+    font-size: 13px;
+    opacity: .65;
+}
+
+.transaction-card__footer .btn {
+    text-decoration: none;
+}
+
+/* =========================================
+   DETAIL TRANSAKSI
+   ========================================= */
+
+.transaction-detail {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px 0 40px;
+}
+
+/* Jangan membuat background persegi panjang
+   dari container detail */
+.transaction-detail .ticket {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .transaction-history {
+        width: 100%;
+        max-width: none;
+        padding: 15px 0 30px;
+    }
+
+    .transaction-card {
+        padding: 16px;
+    }
+
+    .transaction-card__header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .transaction-card__date {
+        text-align: left;
+    }
+
+    .transaction-card__footer {
+        gap: 10px;
+    }
+
+    .transaction-card__footer .btn {
+        font-size: 13px;
+        padding: 9px 13px;
+    }
+
+}
+
+.history-page {
+    width: 100%;
+    min-height: auto;
+}
+
+.history-menu {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 24px;
+    box-sizing: border-box;
+    background: transparent;
+}
+
+.history-menu::before,
+.history-menu::after {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .history-menu {
+        padding: 0 15px;
+    }
+}
+
+/* =========================================================
+   Menu grid
+   ========================================================= */
+.menu {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 20px 20px;
+}
+
+.menu__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .menu__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .menu__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ticket {
+  padding: 24px 24px 32px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+}
+
+.ticket__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ticket__head h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.ticket__close {
+  font-size: 26px;
+  line-height: 1;
+  color: var(--ink-soft);
+  width: 32px;
+  height: 32px;
+}
+
+.ticket__meta {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  margin-bottom: 20px;
+}
+
+.ticket__items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ticket-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.ticket-item__name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ticket-item__line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.ticket-item__remove {
+  color: var(--chili);
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+.ticket-item__price {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ticket__empty {
+  text-align: center;
+  padding: 60px 10px;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+}
+
+.ticket__empty-sub {
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.ticket__divider {
+  border-top: 2px dashed var(--line);
+  margin: 24px 0 16px;
+}
+
+.ticket__totals {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.ticket__row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink-soft);
+}
+
+.ticket__row--total {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.ticket .btn {
+  margin-top: 24px;
+  font-family: var(--font-body);
+}

@@ -66,13 +66,14 @@ class SalesDataTable extends DataTable
                 ->className('text-center align-middle'),
 
             Column::make('customer_name')
-                ->title('Customer')
+                ->title('Pelanggan')
                 ->className('text-center align-middle'),
 
             Column::computed('status')
                 ->className('text-center align-middle'),
 
             Column::computed('total_amount')
+                ->title('Total')
                 ->className('text-center align-middle'),
 
             Column::computed('paid_amount')

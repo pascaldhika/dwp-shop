@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   </head>
   <body>
+
     <!-- ===== Header ===== -->
     <header class="site-header">
         <div class="site-header__inner">
@@ -38,7 +39,7 @@
                 {{-- Riwayat Transaksi --}}
                 <a
                     class="cart-toggle"
-                    href=""
+                    href="{{ route('app.shop.history') }}"
                     aria-label="Riwayat transaksi"
                     aria-expanded="false"
                     aria-controls="cartDrawer"
@@ -169,12 +170,7 @@
     </main>
 
     <!-- ===== Footer ===== -->
-    <footer class="site-footer">
-      <p class="site-footer__links">
-        <a href="#">Contact</a> · <a href="#">Privacy</a> · <a href="#">FAQ</a>
-      </p>
-      <p class="site-footer__copy">© {{ date('Y') }} DWP UPT PPD Ponorogo</p>
-    </footer>
+    @include('sale::partials.history-footer')
 
     <!-- ===== Sticky mobile order bar ===== -->
     <button class="order-bar" id="orderBar" hidden>

@@ -55,7 +55,7 @@
                     class="c-avatar rounded-circle"
                     src="{{ $media
                         ? url('/media/' . str_replace('\\', '/', $media->getPathRelativeToRoot()))
-                        : asset('images/default-avatar.png') }}"
+                        : asset('images/fallback_profile_image.png') }}"
                     alt="Profile Image"
                 >
             </div>

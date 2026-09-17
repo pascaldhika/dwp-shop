@@ -74,6 +74,7 @@ class ShopController extends Controller
                 $payment_status = 'Paid';
             }            
 
+            $user = auth()->user();
             $customer = $user->customer;
 
             $sale = Sale::create([
@@ -152,5 +153,24 @@ class ShopController extends Controller
             'message' => 'Transaksi berhasil disimpan',
             'redirect' => route('app.shop.index')
         ]);
+    }
+
+    public function history()
+    {
+        $transactions = Sale::with('saleDetails')
+            ->where('customer_id', auth()->user()->customer_id)
+            ->latest()
+            ->get();
+
+        return view('sale::shop.history', compact('transactions'));
+    }
+
+    public function historyDetail($id)
+    {
+        $transaction = Sale::with([
+            'saleDetails.product'
+        ])
+        ->findOrFail($id);
+        return view('sale::shop.history-detail', compact('transaction'));
     }
 }

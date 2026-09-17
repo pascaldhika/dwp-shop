@@ -215,20 +215,47 @@
 
     // Line items
     cartItemsEl.innerHTML = entries
-      .map(
-        ({ dish, qty }) => `
-        <div class="ticket-item" data-id="${dish.id}">
-          <div>
-            <p class="ticket-item__name">${dish.name}</p>
-            <div class="ticket-item__line">
-              <span>${qty} × ${formatPrice(dish.price)}</span>
-              <button type="button" class="ticket-item__remove" data-action="remove" data-id="${dish.id}">remove</button>
+    .map(
+      ({ dish, qty }) => `
+      <div class="ticket-item" data-id="${dish.id}">
+        <div>
+          <p class="ticket-item__name">${dish.name}</p>
+
+          <div class="ticket-item__line">
+            <div class="qty-stepper cart-qty-stepper" data-id="${dish.id}">
+              
+              <button
+                type="button"
+                data-action="dec"
+                data-id="${dish.id}"
+                aria-label="Kurangi jumlah"
+              >
+                −
+              </button>
+
+              <span>${qty}</span>
+
+              <button
+                type="button"
+                data-action="inc"
+                data-id="${dish.id}"
+                aria-label="Tambah jumlah"
+              >
+                +
+              </button>
+
             </div>
+
+            <span>${formatPrice(dish.price)} / item</span>
           </div>
-          <span class="ticket-item__price">${formatPrice(dish.price * qty)}</span>
-        </div>`,
-      )
-      .join("");
+        </div>
+
+        <span class="ticket-item__price">
+          ${formatPrice(dish.price * qty)}
+        </span>
+      </div>`,
+    )
+    .join("");
 
     cartTotalEl.textContent = formatPrice(total);
 
@@ -322,8 +349,27 @@
   });
 
   cartItemsEl.addEventListener("click", (e) => {
-    const removeBtn = e.target.closest('[data-action="remove"]');
-    if (removeBtn) removeItem(removeBtn.dataset.id);
+
+    const button = e.target.closest("button[data-action]");
+
+    if (!button) return;
+
+    const id = button.dataset.id;
+    const action = button.dataset.action;
+
+    if (action === "inc") {
+        addToCart(id, true);
+        return;
+    }
+
+    if (action === "dec") {
+        decrementItem(id);
+        return;
+    }
+
+    if (action === "remove") {
+        removeItem(id);
+    }
   });
 
   cartToggle.addEventListener("click", openCart);
@@ -432,7 +478,7 @@
       }
 
       // Berhasil
-      localStorage.removeItem("cart");
+      localStorage.removeItem(STORAGE_KEY);
 
       cart = {};
 
