@@ -257,6 +257,7 @@
 <script>
     window.MENU = @json($menuData);
     window.SHOP_INDEX_URL = @json(route('app.shop.index'));
+    window.SHOP_HISTORY_URL = @json(route('app.shop.history'));
     window.SHOP_STORE_URL = @json(route('app.shop.store'));
 </script>
 

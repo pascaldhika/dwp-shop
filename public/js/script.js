@@ -381,7 +381,13 @@
     if (e.key === "Escape") closeCart();
   });
 
-  checkoutBtn.addEventListener("click", checkout);
+  checkoutBtn.addEventListener("click", function () {
+    const yakin = confirm("Apakah Anda yakin ingin menyimpan data?");
+
+    if (yakin) {
+      checkout();
+    }
+  });
 
   productSearch.addEventListener("input", () => {
 
@@ -488,8 +494,8 @@
       showToast("Transaksi berhasil disimpan");
 
       setTimeout(() => {
-          window.location.href = window.SHOP_INDEX_URL;
-      }, 3000);    
+        window.location.href = window.SHOP_HISTORY_URL;
+      }, 2000);    
 
     } catch (error) {
         console.error(error);
