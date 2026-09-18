@@ -36,61 +36,83 @@
 
             <div class="site-header__actions">
 
-                {{-- Riwayat Transaksi --}}
-                <a
-                    class="cart-toggle"
-                    href="{{ route('app.shop.history') }}"
-                    aria-label="Riwayat transaksi"
-                    aria-expanded="false"
-                    aria-controls="cartDrawer"
-                    title="Riwayat Transaksi"
-                >
-                    <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M3 3v5h5" />
-                        <path d="M3.05 13a9 9 0 1 0 2.13-5.36L3 8" />
-                        <path d="M12 7v5l3 2" />
-                    </svg>
-                </a>
+              {{-- Riwayat Transaksi --}}
+              <a
+                  class="cart-toggle"
+                  href="{{ route('app.shop.history') }}"
+                  aria-label="Riwayat transaksi"
+                  title="Riwayat Transaksi"
+              >
+                  <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                  >
+                      <path d="M3 3v5h5" />
+                      <path d="M3.05 13a9 9 0 1 0 2.13-5.36L3 8" />
+                      <path d="M12 7v5l3 2" />
+                  </svg>
+              </a>
 
-                {{-- Keranjang --}}
-                <button
-                    class="cart-toggle"
-                    id="cartToggle"
-                    aria-label="Open cart"
-                    aria-expanded="false"
-                    aria-controls="cartDrawer"
-                    title="Keranjang Belanja"
-                >
-                    <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <circle cx="9" cy="21" r="1" />
-                        <circle cx="20" cy="21" r="1" />
-                        <path
-                            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-                        />
-                    </svg>
+              {{-- Keranjang --}}
+              <button
+                  class="cart-toggle"
+                  id="cartToggle"
+                  aria-label="Open cart"
+                  aria-expanded="false"
+                  aria-controls="cartDrawer"
+                  title="Keranjang Belanja"
+              >
+                  <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                  >
+                      <circle cx="9" cy="21" r="1" />
+                      <circle cx="20" cy="21" r="1" />
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                  </svg>
 
-                    <span class="cart-toggle__badge" id="cartCount">0</span>
-                </button>
+                  <span class="cart-toggle__badge" id="cartCount">0</span>
+              </button>
 
-            </div>
+              {{-- Logout --}}
+              <a
+                href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                class="cart-toggle"
+                id="logoutButton"
+                aria-label="Logout"
+                title="Keluar"
+              >
+                  <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                  >
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                      <polyline points="16 17 21 12 16 7" />
+                      <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  @csrf
+              </form>
+          </div>
         </div>
     </header>
 

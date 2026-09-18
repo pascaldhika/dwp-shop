@@ -51,6 +51,11 @@ class LoginController extends Controller
             ]);
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if ($user->hasRole('admin')) {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        } else{
+            return redirect()->intended(RouteServiceProvider::SHOP);
+        }
+        
     }
 }
