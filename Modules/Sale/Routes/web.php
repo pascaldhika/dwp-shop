@@ -1,5 +1,7 @@
 <?php
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,14 +22,19 @@ Route::group(['middleware' => 'auth'], function () {
     //Generate PDF
     Route::get('/sales/pdf/{id}', function ($id) {
         $sale = \Modules\Sale\Entities\Sale::findOrFail($id);
-        $customer = \Modules\People\Entities\Customer::findOrFail($sale->customer_id);
 
-        $pdf = \PDF::loadView('sale::print', [
+        $customer = \Modules\People\Entities\Customer::findOrFail(
+            $sale->customer_id
+        );
+
+        $pdf = Pdf::loadView('sale::print', [
             'sale' => $sale,
             'customer' => $customer,
         ])->setPaper('a4');
 
-        return $pdf->stream('sale-'. $sale->reference .'.pdf');
+        return $pdf->stream(
+            'sale-' . $sale->reference . '.pdf'
+        );
     })->name('sales.pdf');
 
     Route::get('/sales/pos/pdf/{id}', function ($id) {

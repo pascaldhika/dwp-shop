@@ -65,9 +65,9 @@
             </p>
         </div>
         <p>
-            Date: {{ \Carbon\Carbon::parse($sale->date)->format('d M, Y') }}<br>
-            Reference: {{ $sale->reference }}<br>
-            Name: {{ $sale->customer_name }}
+            Tanggal: {{ \Carbon\Carbon::parse($sale->date)->format('d M, Y') }}<br>
+            Kode Transaksi: {{ $sale->reference }}<br>
+            Nama: {{ $sale->customer_name }}
         </p>
         <table class="table-data">
             <tbody>
@@ -109,10 +109,10 @@
             <tbody>
                 <tr style="background-color:#ddd;">
                     <td class="centered" style="padding: 5px;">
-                        Paid By: {{ $sale->payment_method }}
+                        <!-- Paid By: {{ $sale->payment_method }} -->
                     </td>
                     <td class="centered" style="padding: 5px;">
-                        Amount: {{ format_currency($sale->paid_amount) }}
+                        Total: {{ format_currency($sale->paid_amount) }}
                     </td>
                 </tr>
                 <tr style="border-bottom: 0;">
