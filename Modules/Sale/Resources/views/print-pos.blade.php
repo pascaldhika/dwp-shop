@@ -2,129 +2,454 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <style>
+        @page {
+            margin: 12px;
+        }
+
         * {
-            font-size: 12px;
-            line-height: 18px;
-            font-family: 'Ubuntu', sans-serif;
+            box-sizing: border-box;
         }
-        h2 {
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #222;
+        }
+
+        .receipt {
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #777;
+        }
+
+        .company-name {
+            margin: 0 0 4px 0;
             font-size: 16px;
+            font-weight: bold;
         }
-        td,
-        th,
-        tr,
-        table {
+
+        .company-info {
+            margin: 0;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        /* =========================
+           TRANSACTION INFO
+        ========================= */
+
+        .transaction-info {
+            padding: 8px 0;
+            border-bottom: 1px dashed #777;
+        }
+
+        .transaction-info table {
+            width: 100%;
             border-collapse: collapse;
         }
-        tr {border-bottom: 1px dashed #ddd;}
-        td,th {padding: 7px 0;width: 50%;}
 
-        table {width: 100%;}
-        tfoot tr th:first-child {text-align: left;}
-
-        .centered {
-            text-align: center;
-            align-content: center;
+        .transaction-info td {
+            padding: 2px 0;
+            vertical-align: top;
         }
-        small{font-size:11px;}
+
+        .transaction-info .label {
+            width: 100px;
+            color: #555;
+        }
+
+        .transaction-info .separator {
+            width: 10px;
+            text-align: center;
+        }
+
+        .transaction-info .value {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        /* =========================
+           PRODUCT TABLE
+        ========================= */
+
+        .items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .items th {
+            padding: 5px 0;
+            border-bottom: 1px solid #333;
+            font-size: 10px;
+        }
+
+        .items td {
+            padding: 6px 0;
+            border-bottom: 1px dashed #ccc;
+            vertical-align: top;
+        }
+
+        .product {
+            width: 55%;
+            text-align: left;
+            padding-right: 8px !important;
+        }
+
+        .qty {
+            width: 15%;
+            text-align: center;
+        }
+
+        .price {
+            width: 30%;
+            text-align: right;
+        }
+
+        .product-name {
+            font-weight: 500;
+        }
+
+        .product-detail {
+            display: block;
+            margin-top: 2px;
+            font-size: 9px;
+            color: #666;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .summary td,
+        .summary th {
+            padding: 4px 0;
+        }
+
+        .summary .label {
+            text-align: left;
+        }
+
+        .summary .amount {
+            text-align: right;
+        }
+
+        .grand-total {
+            border-top: 1px solid #333;
+            border-bottom: 1px double #333;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .grand-total td {
+            padding: 7px 0;
+        }
+
+        /* =========================
+           PAYMENT
+        ========================= */
+
+        .payment {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 7px;
+        }
+
+        .payment td {
+            padding: 5px 0;
+        }
+
+        .payment .label {
+            text-align: left;
+        }
+
+        .payment .amount {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        /* =========================
+           BARCODE
+        ========================= */
+
+        .barcode {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .barcode svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .reference {
+            margin-top: 3px;
+            font-size: 9px;
+            text-align: center;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            margin-top: 10px;
+            padding-top: 7px;
+            border-top: 1px dashed #777;
+            text-align: center;
+            font-size: 9px;
+            color: #555;
+        }
+
+        /* =========================
+           PRINT
+        ========================= */
 
         @media print {
-            * {
-                font-size:12px;
-                line-height: 20px;
+
+            body {
+                font-size: 11px;
             }
-            td,th {padding: 5px 0;}
+
+            .receipt {
+                max-width: 100%;
+            }
+
             .hidden-print {
                 display: none !important;
             }
-            tbody::after {
-                content: '';
-                display: block;
-                page-break-after: always;
-                page-break-inside: auto;
-                page-break-before: avoid;
+
+            tr {
+                page-break-inside: avoid;
             }
         }
     </style>
 </head>
+
 <body>
 
-<div style="max-width:400px;margin:0 auto">
-    <div id="receipt-data">
-        <div class="centered">
-            <h2 style="margin-bottom: 5px">{{ settings()->company_name }}</h2>
+<div class="receipt">
 
-            <p style="font-size: 11px;line-height: 15px;margin-top: 0">
-                {{ settings()->company_email }}, {{ settings()->company_phone }}
-                <br>{{ settings()->company_address }}
-            </p>
-        </div>
-        <p>
-            Tanggal: {{ \Carbon\Carbon::parse($sale->date)->format('d M, Y') }}<br>
-            Kode Transaksi: {{ $sale->reference }}<br>
-            Nama: {{ $sale->customer_name }}
+    {{-- =========================
+         HEADER
+    ========================== --}}
+
+    <div class="header">
+
+        <h2 class="company-name">
+            {{ settings()->company_name }}
+        </h2>
+
+        <p class="company-info">
+            {{ settings()->company_email }}
+            @if(settings()->company_email && settings()->company_phone)
+                &nbsp;|&nbsp;
+            @endif
+            {{ settings()->company_phone }}
+
+            @if(settings()->company_address)
+                <br>
+                {{ settings()->company_address }}
+            @endif
         </p>
-        <table class="table-data">
-            <tbody>
-            @foreach($sale->saleDetails as $saleDetail)
-                <tr>
-                    <td colspan="2">
-                        {{ $saleDetail->product->product_name }}
-                        ({{ $saleDetail->quantity }} x {{ format_currency($saleDetail->price) }})
-                    </td>
-                    <td style="text-align:right;vertical-align:bottom">{{ format_currency($saleDetail->sub_total) }}</td>
-                </tr>
-            @endforeach
 
-            @if($sale->tax_percentage)
-                <tr>
-                    <th colspan="2" style="text-align:left">Tax ({{ $sale->tax_percentage }}%)</th>
-                    <th style="text-align:right">{{ format_currency($sale->tax_amount) }}</th>
-                </tr>
-            @endif
-            @if($sale->discount_percentage)
-                <tr>
-                    <th colspan="2" style="text-align:left">Discount ({{ $sale->discount_percentage }}%)</th>
-                    <th style="text-align:right">{{ format_currency($sale->discount_amount) }}</th>
-                </tr>
-            @endif
-            @if($sale->shipping_amount)
-                <tr>
-                    <th colspan="2" style="text-align:left">Shipping</th>
-                    <th style="text-align:right">{{ format_currency($sale->shipping_amount) }}</th>
-                </tr>
-            @endif
-            <tr>
-                <th colspan="2" style="text-align:left">Grand Total</th>
-                <th style="text-align:right">{{ format_currency($sale->total_amount) }}</th>
-            </tr>
-            </tbody>
-        </table>
-        <table>
-            <tbody>
-                <tr style="background-color:#ddd;">
-                    <td class="centered" style="padding: 5px;">
-                        <!-- Paid By: {{ $sale->payment_method }} -->
-                    </td>
-                    <td class="centered" style="padding: 5px;">
-                        Total: {{ format_currency($sale->paid_amount) }}
-                    </td>
-                </tr>
-                <tr style="border-bottom: 0;">
-                    <td class="centered" colspan="3">
-                        <div style="margin-top: 10px;">
-                            {!! \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG($sale->reference, 'C128', 1, 25, 'black', false) !!}
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
+
+
+    {{-- =========================
+         TRANSACTION INFO
+    ========================== --}}
+
+    <div class="transaction-info">
+
+        <table>
+            <tr>
+                <td class="label">Tanggal</td>
+                <td class="separator">:</td>
+                <td class="value">
+                    {{ \Carbon\Carbon::parse($sale->date)->format('d M Y') }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">Kode Transaksi</td>
+                <td class="separator">:</td>
+                <td class="value">
+                    {{ $sale->reference }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">Nama</td>
+                <td class="separator">:</td>
+                <td class="value">
+                    {{ $sale->customer_name }}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+    {{-- =========================
+         ITEMS
+    ========================== --}}
+
+    <table class="items">
+
+        <thead>
+            <tr>
+                <th class="product">Produk</th>
+                <th class="qty">Qty</th>
+                <th class="price">Jumlah</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        @foreach($sale->saleDetails as $saleDetail)
+
+            <tr>
+
+                <td class="product">
+
+                    <span class="product-name">
+                        {{ $saleDetail->product->product_name }}
+                    </span>
+
+                    <span class="product-detail">
+                        {{ format_currency($saleDetail->price) }}
+                        / item
+                    </span>
+
+                </td>
+
+                <td class="qty">
+                    {{ $saleDetail->quantity }}
+                </td>
+
+                <td class="price">
+                    {{ format_currency($saleDetail->sub_total) }}
+                </td>
+
+            </tr>
+
+        @endforeach
+
+        </tbody>
+
+    </table>
+
+
+    {{-- =========================
+         SUMMARY
+    ========================== --}}
+
+    <table class="summary">
+
+        @if($sale->tax_percentage)
+
+            <tr>
+                <td class="label">
+                    Tax ({{ $sale->tax_percentage }}%)
+                </td>
+
+                <td class="amount">
+                    {{ format_currency($sale->tax_amount) }}
+                </td>
+            </tr>
+
+        @endif
+
+
+        @if($sale->discount_percentage)
+
+            <tr>
+                <td class="label">
+                    Discount ({{ $sale->discount_percentage }}%)
+                </td>
+
+                <td class="amount">
+                    -{{ format_currency($sale->discount_amount) }}
+                </td>
+            </tr>
+
+        @endif
+
+
+        @if($sale->shipping_amount)
+
+            <tr>
+                <td class="label">
+                    Shipping
+                </td>
+
+                <td class="amount">
+                    {{ format_currency($sale->shipping_amount) }}
+                </td>
+            </tr>
+
+        @endif
+
+
+        <tr class="grand-total">
+
+            <td class="label">
+                GRAND TOTAL
+            </td>
+
+            <td class="amount">
+                {{ format_currency($sale->total_amount) }}
+            </td>
+
+        </tr>
+
+    </table>
+
+    {{-- =========================
+         BARCODE
+    ========================== --}}
+
+    <!-- <div class="barcode">
+
+        {!! \Milon\Barcode\Facades\DNS1DFacade::getBarcodeSVG($sale->reference, 'C128', 1, 25, 'black', false) !!}
+
+        <div class="reference">
+            {{ $sale->reference }}
+        </div>
+
+    </div> -->
+
+
+    {{-- =========================
+         FOOTER
+    ========================== --}}
+
+    <div class="footer">
+        Terima kasih atas kunjungan Anda.
+    </div>
+
 </div>
 
 </body>
