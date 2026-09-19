@@ -60,4 +60,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/app/shop', 'ShopController@store')->name('app.shop.store');
     Route::get('/app/shop/history', 'ShopController@history')->name('app.shop.history');
     Route::get('/app/shop/history/{id}', 'ShopController@historyDetail')->name('app.shop.history.detail');
+    Route::get('/app/shop/history/{id}/beli-lagi','ShopController@beliLagi')->name('app.shop.beli-lagi');
 });

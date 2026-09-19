@@ -22,7 +22,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=3">
   </head>
   <body>
 
@@ -122,8 +122,7 @@
         <p class="hero__eyebrow">DWP UPT PPD Ponorogo</p>
         <h1 class="hero__title">Selamat berbelanja,<br />di Toko Lestari.</h1>
         <p class="hero__sub">
-          Pick your dishes, build your ticket, send it to the kitchen. No
-          account, no hassle — just lunch.
+          Harga produk di aplikasi adalah harga terendah.
         </p>
         <!-- <a href="#menu" class="btn btn--primary">View the menu</a> -->
       </div>
@@ -295,5 +294,11 @@
     window.SHOP_STORE_URL = @json(route('app.shop.store'));
     window.MIN_ORDER = {!! $minOrder !!};
 </script>
+
+@if(session('buy_again_cart'))
+<script>
+    window.BUY_AGAIN_CART = @json(session('buy_again_cart'));
+</script>
+@endif
 
 <script src="{{ asset('js/script.js') }}?v=2"></script>

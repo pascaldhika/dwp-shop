@@ -188,4 +188,25 @@ class ShopController extends Controller
         ->findOrFail($id);
         return view('sale::shop.history-detail', compact('transaction'));
     }
+
+    public function beliLagi($id)
+    {
+        $transaction = Sale::with('saleDetails')
+            ->findOrFail($id);
+
+        $cart = [];
+
+        foreach ($transaction->saleDetails as $detail) {
+
+            if (!$detail->product_id) {
+                continue;
+            }
+
+            $cart[(string) $detail->product_id] = (int) $detail->quantity;
+        }
+
+        return redirect()
+            ->route('app.shop.index')
+            ->with('buy_again_cart', $cart);
+    }
 }

@@ -57,14 +57,26 @@
                             {{ $transaction->saleDetails->sum('quantity') }} item
                         </span>
 
-                        <a
-                            href="{{ route('app.shop.history.detail', $transaction->id) }}"
-                            class="btn btn--primary"
-                        >
-                            Lihat Detail
-                        </a>
+                        <div class="transaction-card__actions">
+
+                            <a
+                                href="{{ route('app.shop.history.detail', $transaction->id) }}"
+                                class="btn btn--primary"
+                            >
+                                Lihat Detail
+                            </a>
+
+                            <a
+                                href="{{ route('app.shop.beli-lagi', $transaction->id) }}"
+                                class="btn btn--secondary"
+                            >
+                                Beli Lagi
+                            </a>
+
+                        </div>
 
                     </div>
+
 
                 </article>
 

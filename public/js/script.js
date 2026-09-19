@@ -13,7 +13,25 @@
   const STORAGE_KEY = "tastybites_cart";
 
   /* ---------- State ---------- */
-  let cart = loadCart(); // { [id]: qty }
+  let cart = loadCart();
+
+  if (window.BUY_AGAIN_CART) {
+
+      cart = window.BUY_AGAIN_CART;
+
+      try {
+          localStorage.setItem(
+              STORAGE_KEY,
+              JSON.stringify(cart)
+          );
+      } catch (err) {
+          console.error("Gagal menyimpan keranjang:", err);
+      }
+
+      // Hapus supaya tidak dimasukkan lagi saat refresh
+      window.BUY_AGAIN_CART = null;
+  }
+
   let activeCategory = "all";
   let searchQuery = "";
 

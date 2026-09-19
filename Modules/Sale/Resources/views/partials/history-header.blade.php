@@ -18,7 +18,7 @@
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="{{ asset('css/style-history.css') }}?v=2">
+    <link rel="stylesheet" href="{{ asset('css/style-history.css') }}?v=3">
 </head>
 
 <body>
