@@ -30,7 +30,13 @@
 
                             <div class="form-group">
                                 <label for="image">Profile Image <span class="text-danger">*</span></label>
-                                <img style="width: 100px;height: 100px;" class="d-block mx-auto img-thumbnail img-fluid rounded-circle mb-2" src="{{ auth()->user()->getFirstMediaUrl('avatars') }}" alt="Profile Image">
+                                @php
+                                    $media = auth()->user()->getFirstMedia('avatars');
+                                @endphp
+
+                                <img style="width: 100px;height: 100px;" class="d-block mx-auto img-thumbnail img-fluid rounded-circle mb-2" src="{{ $media
+                                        ? url('/media/' . str_replace('\\', '/', $media->getPathRelativeToRoot()))
+                                        : asset('images/fallback_profile_image.png') }}" alt="Profile Image">
                                 <input id="image" type="file" name="image" data-max-file-size="500KB">
                             </div>
 
