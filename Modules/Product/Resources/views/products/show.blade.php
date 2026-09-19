@@ -92,7 +92,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         @forelse($product->getMedia('images') as $media)
-                            <img src="{{ url('/media/' . $media->getPathRelativeToRoot('thumb')) }}"
+                            <img src="{{ url('/media/' . $media->getPathRelativeToRoot()) }}"
                                 alt="Product Image"
                                 class="img-fluid img-thumbnail mb-2">
                         @empty

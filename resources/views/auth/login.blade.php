@@ -21,7 +21,7 @@
     <meta name="twitter:title" content="Soft Minimalism Login Form">
     <meta name="twitter:description" content="Warm minimalism login form with organic curves and gentle press feedback.">
     <meta name="twitter:image" content="https://puikinsh.github.io/login-forms/assets/screenshots/soft-minimalism.png">
-    <link rel="stylesheet" href="{{ asset('css/style-auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style-auth.css') }}?v=2">
 </head>
 <body>
     <div class="soft-background">

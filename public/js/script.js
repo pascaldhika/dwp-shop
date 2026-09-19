@@ -37,8 +37,11 @@
   const ticketMetaEl = document.getElementById("ticketMeta");
   const productSearch = document.getElementById("productSearch");
   const clearSearch = document.getElementById("clearSearch");
+  const ticketWarning = document.getElementById("ticketWarning");
 
   /* ---------- Utilities ---------- */
+  ticketWarning.style.display = "none";
+
   function formatPrice(n) {
     return "Rp" + Number(n).toLocaleString('id-ID');
   }
@@ -177,7 +180,7 @@
                                         data-action="add"
                                         data-id="${dish.id}"
                                     >
-                                        Add
+                                        Tambah
                                     </button>
                                     `
                             }
@@ -208,10 +211,28 @@
     orderBarCount.textContent = `${count} item${count === 1 ? "" : "s"}`;
     orderBarTotal.textContent = formatPrice(total);
 
+    // Minimum order
+    const MIN_ORDER = window.MIN_ORDER || 0;
+    console.log('MIN_ORDER:', MIN_ORDER);
+    console.log('TOTAL:', total);
+
     // Empty state
     cartEmptyEl.style.display = entries.length ? "none" : "block";
-    checkoutBtn.disabled = entries.length === 0;
-    checkoutBtn.style.opacity = entries.length === 0 ? 0.5 : 1;
+
+    // Validasi checkout
+    const checkoutDisabled = entries.length === 0 || total < MIN_ORDER;
+
+    checkoutBtn.disabled = checkoutDisabled;
+    checkoutBtn.style.opacity = checkoutDisabled ? 0.5 : 1;
+
+    // Pesan minimum transaksi
+    if (entries.length > 0 && total < MIN_ORDER) {
+        ticketWarning.style.display = "block";
+        ticketWarning.textContent =
+            `* Total transaksi belum memenuhi. Minimal transaksi Anda ${formatPrice(MIN_ORDER)}`;
+    } else {
+        ticketWarning.style.display = "none";
+    }
 
     // Line items
     cartItemsEl.innerHTML = entries

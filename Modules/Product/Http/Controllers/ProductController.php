@@ -46,8 +46,19 @@ class ProductController extends Controller
         $product = Product::create($request->except('document'));
 
         if ($request->has('document')) {
+
             foreach ($request->input('document', []) as $file) {
-                $product->addMedia(Storage::path('temp/dropzone/' . $file))->toMediaCollection('images');
+
+                $path = 'temp/dropzone/' . $file;
+
+                if (!Storage::disk('local')->exists($path)) {
+                    throw new \Exception(
+                        'File tidak ditemukan: ' . Storage::disk('local')->path($path)
+                    );
+                }
+
+                $product->addMediaFromDisk($path, 'local')
+                    ->toMediaCollection('images');
             }
         }
 

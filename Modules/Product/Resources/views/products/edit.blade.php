@@ -223,7 +223,7 @@
                                 'media_id' => $media->id,
                                 'name'     => $media->file_name,
                                 'size'     => $media->size,
-                                'url'      => url('/media/' . $media->getPathRelativeToRoot('thumb')),
+                                'url'      => url('/media/' . $media->getPathRelativeToRoot()),
                             ];
                         })
                     ) !!};

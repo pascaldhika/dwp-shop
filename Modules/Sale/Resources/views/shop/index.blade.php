@@ -22,7 +22,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=2">
   </head>
   <body>
 
@@ -243,6 +243,10 @@
           </div>
         </div>
 
+        <p class="ticket__warning" id="ticketWarning">
+          * Total transaksi belum memenuhi
+        </p>
+
         <button class="btn btn--primary btn--block" id="checkoutBtn">
           Simpan
         </button>
@@ -274,6 +278,14 @@
         })
         ->values()
         ->toArray();
+
+    $user = auth()->user();
+
+    if (is_null($user->customer_id) || !$user->customer) {
+      $minOrder = 0;
+    } else{
+      $minOrder = $user->customer->min_order;
+    }
 @endphp
 
 <script>
@@ -281,6 +293,7 @@
     window.SHOP_INDEX_URL = @json(route('app.shop.index'));
     window.SHOP_HISTORY_URL = @json(route('app.shop.history'));
     window.SHOP_STORE_URL = @json(route('app.shop.store'));
+    window.MIN_ORDER = {!! $minOrder !!};
 </script>
 
-<script src="{{ asset('js/script.js') }}"></script>
+<script src="{{ asset('js/script.js') }}?v=2"></script>

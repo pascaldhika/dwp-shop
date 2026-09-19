@@ -26,7 +26,7 @@ class ProductDataTable extends DataTable
                     return '-';
                 }
 
-                $fullPath = $media->getPath('thumb');
+                $fullPath = $media->getPath();
 
                 $publicPath = storage_path('app/public');
 
