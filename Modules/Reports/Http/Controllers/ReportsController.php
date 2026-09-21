@@ -27,21 +27,9 @@ class ReportsController extends Controller
         return view('reports::sales.index');
     }
 
-    public function purchasesReport() {
+    public function salesPerProductReport() {
         abort_if(Gate::denies('access_reports'), 403);
 
-        return view('reports::purchases.index');
-    }
-
-    public function salesReturnReport() {
-        abort_if(Gate::denies('access_reports'), 403);
-
-        return view('reports::sales-return.index');
-    }
-
-    public function purchasesReturnReport() {
-        abort_if(Gate::denies('access_reports'), 403);
-
-        return view('reports::purchases-return.index');
+        return view('reports::sales.index-per-product');
     }
 }

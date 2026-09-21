@@ -84,52 +84,16 @@
                                 <td style="text-align: right;">{{ format_currency($sale_payments) }}</td>
                             </tr>
                             <tr>
-                                <td>2</td>
-                                <td style="text-align: left;">Purchase Return Payments</td>
-                                <td style="text-align: right;">{{ format_currency($purchase_return_payments) }}</td>
-                            </tr>
-                            <tr>
                                 @php
-                                    $total_incomes = $sale_payments + $purchase_return_payments;
+                                    $total_incomes = $sale_payments;
                                 @endphp
                                 <th style="text-align: right;" colspan="2">Total</th>
                                 <th style="text-align: right;">{{ format_currency($total_incomes) }}</th>
                             </tr>
                             
                             <tr>
-                                <th colspan="3" style="text-align: left;">Expense</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td style="text-align: left;">Purchase Payments</td>
-                                <td style="text-align: right;">{{ format_currency($purchase_payments) }}</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td style="text-align: left;">Sales Return Payments</td>
-                                <td style="text-align: right;">{{ format_currency($sale_return_payments) }}</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td style="text-align: left;">Expenses Amount</td>
-                                <td style="text-align: right;">{{ format_currency($expenses_amount) }}</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td style="text-align: left;">Payrolls</td>
-                                <td style="text-align: right;">{{ format_currency($payrolls_amount) }}</td>
-                            </tr>
-                            <tr>
-                                @php
-                                    $total_expenses = $purchase_payments + $sale_return_payments + $expenses_amount + $payrolls_amount;
-                                @endphp
-                                <th style="text-align: right;" colspan="2">Total</th>
-                                <th style="text-align: right;">{{ format_currency($total_expenses) }}</th>
-                            </tr>
-                            
-                            <tr>
                                 <th style="text-align: right;" colspan="2">Profit</th>
-                                <th style="text-align: right;">{{ format_currency($total_incomes - $total_expenses) }}</th>
+                                <th style="text-align: right;">{{ format_currency($total_incomes) }}</th>
                             </tr>
                         </tbody>
                     </table>

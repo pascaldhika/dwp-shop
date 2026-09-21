@@ -445,7 +445,7 @@
     <div class="items-wrapper">
 
         <h3 class="section-title">
-            Order Details
+            Detail Transaksi
         </h3>
 
         <table class="items">
@@ -454,23 +454,23 @@
 
             <tr>
                 <th class="product">
-                    Product
+                    Produk
                 </th>
 
                 <th class="unit-price">
-                    Net Unit Price
+                    Harga Satuan
                 </th>
 
                 <th class="quantity">
-                    Qty
+                    Kuantitas
                 </th>
 
                 <th class="discount">
-                    Discount
+                    Diskon
                 </th>
 
                 <th class="tax">
-                    Tax
+                    Pajak
                 </th>
 
                 <th class="subtotal">

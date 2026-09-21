@@ -776,3 +776,42 @@ a {
   color: #fc0404;
   font-weight: 500;
 }
+
+.logo_katalog {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.logo__dwp {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.logo__text {
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.logo__text span {
+    font-weight: 400;
+    color: var(--chili);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .logo__dwp {
+        width: 36px;
+        height: 36px;
+    }
+
+    .logo__text {
+        font-size: 1.1rem;
+    }
+}
+
+.hero__welcome { font-size: 0.55em; font-weight: 500; line-height: 1.3; } .hero__welcome span { font-weight: 700; }
