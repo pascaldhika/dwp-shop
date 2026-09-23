@@ -10,8 +10,13 @@ use Modules\Sale\Entities\SalePayment;
 class HomeController extends Controller
 {
 
-    public function index() {
+        public function index()
+    {
+        // =========================
+        // TOTAL KESELURUHAN
+        // =========================
         $sales = Sale::completed()->sum('total_amount');
+
         $product_costs = 0;
 
         foreach (Sale::completed()->with('saleDetails')->get() as $sale) {
@@ -22,12 +27,41 @@ class HomeController extends Controller
             }
         }
 
-        $revenue = ($sales) / 100;
+        $revenue = $sales / 100;
         $profit = $revenue - $product_costs;
 
+
+        // =========================
+        // BULAN INI
+        // =========================
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth   = now()->endOfMonth();
+
+        $monthly_sales = Sale::completed()->whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('total_amount');
+
+        $monthly_product_costs = 0;
+
+        foreach (Sale::completed()->whereBetween('created_at', [$startOfMonth, $endOfMonth])->with('saleDetails')->get() as $sale) {
+            foreach ($sale->saleDetails as $saleDetail) {
+                if (!is_null($saleDetail->product)) {
+                    $monthly_product_costs +=
+                        $saleDetail->product->product_cost * $saleDetail->quantity;
+                }
+            }
+        }
+
+        $monthly_revenue = $monthly_sales / 100;
+        $monthly_profit = $monthly_revenue - $monthly_product_costs;
+
+
         return view('home', [
-            'revenue'          => $revenue,
-            'profit'           => $profit
+            // Keseluruhan
+            'revenue'        => $revenue,
+            'profit'         => $profit,
+
+            // Bulan ini
+            'monthly_revenue' => $monthly_revenue,
+            'monthly_profit'  => $monthly_profit,
         ]);
     }
 
@@ -42,6 +76,15 @@ class HomeController extends Controller
         return response()->json([
             'sales'     => $currentMonthSales,
         ]);
+    }
+
+    public function salesPurchasesChart() {
+        abort_if(!request()->ajax(), 404);
+
+        $sales = $this->salesChartData();
+        $purchases = $this->purchasesChartData();
+
+        return response()->json(['sales' => $sales, 'purchases' => $purchases]);
     }
 
     public function paymentChart() {
@@ -109,6 +152,11 @@ class HomeController extends Controller
         }
 
         return response()->json(['data' => $data, 'days' => $days]);
+    }
+
+    public function purchasesChartData() {
+        return response()->json(['data' => [], 'days' => []]);
+
     }
     
 }

@@ -12,21 +12,21 @@
     <div class="container-fluid">
         @can('show_total_stats')
         <div class="row">
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-3 col-lg-3">
                 <div class="card border-0">
                     <div class="card-body p-0 d-flex align-items-center shadow-sm">
-                        <div class="bg-gradient-primary p-4 mfe-3 rounded-left">
+                        <div class="bg-gradient-success p-4 mfe-3 rounded-left">
                             <i class="bi bi-bar-chart font-2xl"></i>
                         </div>
                         <div>
                             <div class="text-value text-primary">{{ format_currency($revenue) }}</div>
-                            <div class="text-muted text-uppercase font-weight-bold small">Revenue</div>
+                            <div class="text-muted text-uppercase font-weight-bold small">Total Pendapatan</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-3 col-lg-3">
                 <div class="card border-0">
                     <div class="card-body p-0 d-flex align-items-center shadow-sm">
                         <div class="bg-gradient-info p-4 mfe-3 rounded-left">
@@ -34,7 +34,35 @@
                         </div>
                         <div>
                             <div class="text-value text-info">{{ format_currency($profit) }}</div>
-                            <div class="text-muted text-uppercase font-weight-bold small">Profit</div>
+                            <div class="text-muted text-uppercase font-weight-bold small">Total Keuntungan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-lg-3">
+                <div class="card border-0">
+                    <div class="card-body p-0 d-flex align-items-center shadow-sm">
+                        <div class="bg-gradient-primary p-4 mfe-3 rounded-left">
+                            <i class="bi bi-bar-chart font-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="text-value text-primary">{{ format_currency($monthly_revenue) }}</div>
+                            <div class="text-muted text-uppercase font-weight-bold small">Pendapatan Bulan Ini</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-lg-3">
+                <div class="card border-0">
+                    <div class="card-body p-0 d-flex align-items-center shadow-sm">
+                        <div class="bg-gradient-warning p-4 mfe-3 rounded-left">
+                            <i class="bi bi-trophy font-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="text-value text-info">{{ format_currency($monthly_profit) }}</div>
+                            <div class="text-muted text-uppercase font-weight-bold small">Keuntungan Bulan Ini</div>
                         </div>
                     </div>
                 </div>
@@ -42,7 +70,7 @@
         </div>
         @endcan
 
-        @can('show_weekly_sales_purchases|show_month_overview')
+        <!-- @can('show_weekly_sales_purchases|show_month_overview')
         <div class="row mb-4">
             @can('show_weekly_sales_purchases')
             <div class="col-lg-7">
@@ -71,9 +99,9 @@
             </div>
             @endcan
         </div>
-        @endcan
+        @endcan -->
 
-        @can('show_monthly_cashflow')
+        <!-- @can('show_monthly_cashflow')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card border-0 shadow-sm">
@@ -86,7 +114,7 @@
                 </div>
             </div>
         </div>
-        @endcan
+        @endcan -->
     </div>
 @endsection
 
