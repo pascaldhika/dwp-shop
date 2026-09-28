@@ -209,90 +209,343 @@ body {
     font-weight: 400;
 }
 
-/* Soft Form Fields */
+/* =========================================
+   MODERN SOFT INPUT
+   ========================================= */
+
 .soft-field {
     position: relative;
-    margin-bottom: 24px;
+    width: 100%;
+    margin-bottom: 22px;
 }
 
 .field-container {
     position: relative;
-    overflow: visible;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1.5px solid rgba(240, 206, 170, 0.3);
-    border-radius: 16px;
-    transition: all 0.3s ease;
+    width: 100%;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(139, 102, 85, 0.16);
+    border-radius: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        background-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.2s ease;
+
+    box-sizing: border-box;
 }
 
+/* Hover */
+.field-container:hover {
+    border-color: rgba(139, 102, 85, 0.28);
+    background: rgba(255, 255, 255, 0.88);
+}
+
+/* Focus */
 .field-container:focus-within {
-    border-color: #f0ceaa;
-    box-shadow: 0 0 0 3px rgba(240, 206, 170, 0.1);
-    background: rgba(255, 255, 255, 0.9);
+    border-color: #d9ad86;
+    background: rgba(255, 255, 255, 0.96);
+
+    box-shadow:
+        0 0 0 3px rgba(240, 206, 170, 0.16),
+        0 6px 18px rgba(139, 102, 85, 0.06);
 }
 
+/* Input */
 .soft-field input {
     width: 100%;
+    height: 58px;
+
+    padding: 22px 16px 7px 16px;
+
     background: transparent;
-    border: none;
-    padding: 18px 16px;
-    color: #8b6655;
-    font-size: 15px;
-    font-weight: 400;
+    border: 0;
     outline: none;
+
+    color: #6f4f40;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 450;
+    line-height: 1.4;
+
+    box-sizing: border-box;
     position: relative;
     z-index: 2;
-    font-family: inherit;
+
+    border-radius: 14px;
+    transition: color 0.2s ease;
 }
 
+/* Placeholder harus transparan supaya floating label bekerja */
 .soft-field input::placeholder {
     color: transparent;
 }
 
-.soft-field label {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(139, 102, 85, 0.6);
-    font-size: 15px;
-    font-weight: 400;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    z-index: 3;
-
-    /* menutupi garis border di belakang label */
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0 5px;
+/* Autofill Chrome */
+.soft-field input:-webkit-autofill,
+.soft-field input:-webkit-autofill:hover,
+.soft-field input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #6f4f40;
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.96) inset;
+    transition: background-color 9999s ease-in-out 0s;
 }
 
-/* Floating label */
+/* =========================================
+   FLOATING LABEL
+   ========================================= */
+
+.soft-field label {
+    position: absolute;
+
+    left: 16px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    padding: 0 4px;
+
+    color: rgba(111, 79, 64, 0.58);
+    background: transparent;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1;
+
+    pointer-events: none;
+    z-index: 3;
+
+    transition:
+        top 0.22s ease,
+        transform 0.22s ease,
+        font-size 0.22s ease,
+        color 0.22s ease,
+        background-color 0.22s ease;
+}
+
+/* Label aktif */
 .soft-field input:focus + label,
 .soft-field input:not(:placeholder-shown) + label {
     top: 0;
+
     transform: translateY(-50%);
-    font-size: 12px;
-    color: #8b6655;
-    font-weight: 500;
+
+    background: #fffaf6;
+
+    color: #9a705b;
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
 }
+
+/* Label ketika focus */
+.field-container:focus-within label {
+    color: #9a705b;
+}
+
+/* =========================================
+   BOTTOM ACCENT
+   ========================================= */
 
 .field-accent {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
+
+    left: 14px;
+    right: 14px;
+    bottom: -1px;
+
+    width: auto;
     height: 2px;
-    background: linear-gradient(90deg, #f0ceaa, #e0be9c);
-    transition: width 0.3s ease;
-    border-radius: 2px;
+
+    background: linear-gradient(
+        90deg,
+        #f0ceaa,
+        #dfb58f
+    );
+
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.3s ease;
+
+    border-radius: 999px;
+
+    z-index: 4;
 }
 
 .field-container:focus-within .field-accent {
-    width: 100%;
+    width: auto;
+    transform: scaleX(1);
 }
 
-/* Password Toggle */
+/* =========================================
+   ERROR
+   ========================================= */
+
+.gentle-error {
+    display: block;
+
+    margin-top: 7px;
+    padding-left: 4px;
+
+    color: #c56f61;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* =========================================
+   PASSWORD FIELD
+   ========================================= */
+
 .soft-field:has(.gentle-toggle) input {
-    padding-right: 56px;
+    padding-right: 54px;
+}
+
+.gentle-toggle {
+    position: absolute;
+
+    right: 8px;
+    top: 50%;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-50%);
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #9b7765;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.gentle-toggle:hover {
+    background: rgba(240, 206, 170, 0.15);
+    color: #7e5948;
+}
+
+/* =========================================
+   RESPONSIVE - TABLET
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .soft-field {
+        margin-bottom: 20px;
+    }
+
+    .field-container {
+        min-height: 56px;
+        border-radius: 13px;
+    }
+
+    .soft-field input {
+        height: 56px;
+        padding: 21px 15px 7px 15px;
+        font-size: 15px;
+    }
+
+    .soft-field label {
+        left: 15px;
+        font-size: 14px;
+    }
+
+    .soft-field input:focus + label,
+    .soft-field input:not(:placeholder-shown) + label {
+        font-size: 11px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .soft-field {
+        margin-bottom: 18px;
+    }
+
+    .field-container {
+        min-height: 54px;
+        border-radius: 12px;
+    }
+
+    .soft-field input {
+        height: 54px;
+
+        padding:
+            20px
+            14px
+            6px
+            14px;
+
+        font-size: 14px;
+    }
+
+    .soft-field label {
+        left: 14px;
+        font-size: 14px;
+    }
+
+    .soft-field input:focus + label,
+    .soft-field input:not(:placeholder-shown) + label {
+        font-size: 10.5px;
+    }
+
+    .field-accent {
+        left: 12px;
+        right: 12px;
+    }
+
+    .gentle-error {
+        font-size: 11px;
+    }
+}
+
+/* =========================================
+   VERY SMALL DEVICES
+   ========================================= */
+
+@media (max-width: 360px) {
+
+    .field-container {
+        min-height: 52px;
+    }
+
+    .soft-field input {
+        height: 52px;
+        font-size: 14px;
+    }
+
+    .soft-field label {
+        font-size: 13px;
+    }
+}
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .field-container,
+    .soft-field input,
+    .sof
 }
 
 .gentle-toggle {
