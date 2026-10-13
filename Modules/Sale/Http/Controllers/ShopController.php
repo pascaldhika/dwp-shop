@@ -18,10 +18,31 @@ use Modules\Sale\Http\Requests\StorePosSaleRequest;
 class ShopController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
         Cart::instance('sale')->destroy();
 
-        return view('sale::shop.index');
+        // Ambil customer yang sedang login
+        $user = auth()->user();
+
+        if (is_null($user->customer_id) || !$user->customer) {
+            $noUrutTransaksi = 1;
+        } else{
+            $customer = $user->customer;
+
+            // Hitung jumlah pesanan pada bulan berjalan
+            $jumlahPesanan = Sale::where('customer_id', $customer->id)
+                ->whereYear('date', now()->year)
+                ->whereMonth('date', now()->month)
+                ->count();
+
+            // Nomor urut transaksi berikutnya
+            $noUrutTransaksi = $jumlahPesanan + 1;
+        }        
+
+        return view('sale::shop.index', compact(
+            'noUrutTransaksi',
+        ));
     }
 
 
@@ -60,22 +81,7 @@ class ShopController extends Controller
                 'success' => false,
                 'message' => 'Akun Anda belum memiliki data customer.'
             ], 422);
-        }
-
-        $customer = $user->customer;
-
-        // Cek apakah customer sudah melakukan transaksi pada bulan berjalan
-        $existingSale = Sale::where('customer_id', $customer->id)
-            ->whereYear('date', now()->year)
-            ->whereMonth('date', now()->month)
-            ->exists();
-
-        if ($existingSale) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Anda sudah memiliki transaksi pada bulan ini. Transaksi baru tidak dapat dilakukan.'
-            ], 422);
-        }
+        }    
 
         DB::transaction(function () use ($request) {
 

@@ -452,7 +452,7 @@
   /* ---------- Init ---------- */
   renderMenu();
   renderCart();
-  setTicketMeta();
+  // setTicketMeta();
 
   async function checkout() {
     if (Object.keys(cart).length === 0) {

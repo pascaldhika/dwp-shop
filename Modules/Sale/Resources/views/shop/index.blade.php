@@ -250,7 +250,11 @@
           </button>
         </div>
         <p class="ticket__meta" id="ticketMeta">
-          Ticket #— · <span id="ticketDate"></span>
+          Pesanan No · <span id="ticketDate">{{ $noUrutTransaksi }}</span>
+        </p>
+
+        <p class="ticket__warning">
+          * Harga tertera adalah pekiraan, harga real bisa berbeda
         </p>
 
         <div class="ticket__items" id="cartItems">
@@ -325,7 +329,7 @@
     window.SHOP_INDEX_URL = @json(route('app.shop.index'));
     window.SHOP_HISTORY_URL = @json(route('app.shop.history'));
     window.SHOP_STORE_URL = @json(route('app.shop.store'));
-    window.MIN_ORDER = {!! $minOrder !!};
+    window.MIN_ORDER = {!! ($noUrutTransaksi > 1) ? 0 : $minOrder !!};
 </script>
 
 @if(session('buy_again_cart'))
@@ -334,4 +338,4 @@
 </script>
 @endif
 
-<script src="{{ asset('js/script.js') }}?v=2"></script>
+<script src="{{ asset('js/script.js') }}?v=3"></script>
