@@ -81,7 +81,22 @@ class ShopController extends Controller
                 'success' => false,
                 'message' => 'Akun Anda belum memiliki data customer.'
             ], 422);
-        }    
+        }   
+        
+        $customer = $user->customer;
+
+        // Cek apakah customer sudah melakukan transaksi pada bulan berjalan
+        $existingSale = Sale::where('customer_id', $customer->id)
+            ->whereYear('date', now()->year)
+            ->whereMonth('date', now()->month)
+            ->exists();
+
+        if ($existingSale) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda sudah memiliki transaksi pada bulan ini. Transaksi baru tidak dapat dilakukan.'
+            ], 422);
+        }
 
         DB::transaction(function () use ($request) {
 

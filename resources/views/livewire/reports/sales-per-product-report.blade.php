@@ -56,6 +56,27 @@
                         <i class="bi bi-file"></i>
                         Export Excel
                     </button>
+
+                    <button
+                        type="button"
+                        wire:click="exportPdf"
+                        wire:loading.attr="disabled"
+                        wire:target="exportPdf"
+                        class="btn btn-danger">
+
+                        <span wire:loading.remove wire:target="exportPdf">
+                            <i class="bi bi-file-pdf"></i>
+                            Export PDF
+                        </span>
+
+                        <span wire:loading wire:target="exportPdf">
+                            <span class="spinner-border spinner-border-sm"></span>
+                            Membuat PDF...
+                        </span>
+                    </button>
+                    
+                    <hr>
+                    
                     <table id="table-to-export" class="table table-bordered table-striped text-center mb-0">
                         <div wire:loading.flex class="col-12 position-absolute justify-content-center align-items-center" style="top:0;right:0;left:0;bottom:0;background-color: rgba(255,255,255,0.5);z-index: 99;">
                             <div class="spinner-border text-primary" role="status">
@@ -64,23 +85,40 @@
                         </div>
                         <thead>
                         <tr>
-                            <th>Kode</th>
+                            <th>Gambar</th>
                             <th>Nama Produk</th>
-                            <th>Total Kuantitas</th>
-                            <th>Grand Total</th>
+                            <th>Total</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($sales as $sale)
                             <tr>
-                                <td>{{ $sale->product_code }}</td>
+                                <td>
+                                    @php
+                                        $product = \Modules\Product\Entities\Product::find($sale->product_id);
+                                        $media = $product?->getFirstMedia('images');
+                                    @endphp
+
+                                    @if ($media)
+                                        <img
+                                            src="{{ url('/media/' . $media->getPathRelativeToRoot()) }}"
+                                            alt="{{ $sale->product_name }}"
+                                            width="60"
+                                            class="img-thumbnail">
+                                    @else
+                                        <img
+                                            src="{{ $product?->product_image_url }}"
+                                            alt="{{ $sale->product_name }}"
+                                            width="60"
+                                            class="img-thumbnail">
+                                    @endif
+                                </td>
                                 <td>{{ $sale->product_name }}</td>
-                                <td>{{ $sale->total_qty }}</td>
-                                <td>{{ format_currency($sale->grand_total) }}</td>
+                                <td>{{ $sale->total_qty }} {{ $sale->product_unit }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">
+                                <td colspan="3">
                                     <span class="text-danger">No Sale Data Available!</span>
                                 </td>
                             </tr>

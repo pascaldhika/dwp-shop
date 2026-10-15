@@ -773,6 +773,22 @@ a {
   margin: 8px 0 10px;
   text-align: left;
   font-size: 12px;
+  color: #fab753;
+  font-weight: 500;
+}
+
+.ticket__info {
+  margin: 8px 0 10px;
+  text-align: left;
+  font-size: 12px;
+  color: #41a7fa;
+  font-weight: 500;
+}
+
+.ticket__danger {
+  margin: 8px 0 10px;
+  text-align: left;
+  font-size: 12px;
   color: #fc0404;
   font-weight: 500;
 }

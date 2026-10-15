@@ -6,7 +6,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Katalog || {{ config('app.name') }}</title>
+    <title>Katalog | {{ config('app.name') }}</title>
     <meta
       name="description"
       content="Browse the menu, build your order and check out — a responsive, mobile-first food ordering interface."
@@ -22,7 +22,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=5">
   </head>
   <body>
 
@@ -253,7 +253,7 @@
           Pesanan No · <span id="ticketDate">{{ $noUrutTransaksi }}</span>
         </p>
 
-        <p class="ticket__warning">
+        <p class="ticket__info">
           * Harga tertera adalah pekiraan, harga real bisa berbeda
         </p>
 
@@ -279,8 +279,15 @@
           </div>
         </div>
 
-        <p class="ticket__warning" id="ticketWarning">
+        <p class="ticket__danger" id="ticketWarning">
           * Total transaksi belum memenuhi
+        </p>
+
+        <p class="ticket__warning">
+            * Jika belanjaan kurang akan ditambahkan dari daftar produk berikut:<br>
+            1. XXX<br>
+            2. YYY<br>
+            3. ZZZ
         </p>
 
         <button class="btn btn--primary btn--block" id="checkoutBtn">
@@ -329,7 +336,7 @@
     window.SHOP_INDEX_URL = @json(route('app.shop.index'));
     window.SHOP_HISTORY_URL = @json(route('app.shop.history'));
     window.SHOP_STORE_URL = @json(route('app.shop.store'));
-    window.MIN_ORDER = {!! ($noUrutTransaksi > 1) ? 0 : $minOrder !!};
+    window.MIN_ORDER = {!! $minOrder !!};
 </script>
 
 @if(session('buy_again_cart'))

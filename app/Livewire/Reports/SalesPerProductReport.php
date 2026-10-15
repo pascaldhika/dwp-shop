@@ -5,6 +5,9 @@ namespace App\Livewire\Reports;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Sale\Entities\SaleDetails;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Modules\Product\Entities\Product;
+use Illuminate\Support\Facades\File;
 
 class SalesPerProductReport extends Component
 {
@@ -40,28 +43,40 @@ class SalesPerProductReport extends Component
     }
 
 
+    protected function getSalesQuery()
+    {
+        return SaleDetails::query()
+            ->selectRaw('
+                products.id AS product_id,
+                products.product_code,
+                products.product_name,
+                products.product_unit,
+                SUM(sale_details.quantity) AS total_qty,
+                SUM(
+                    sale_details.quantity * (sale_details.unit_price / 100)
+                ) AS grand_total
+            ')
+            ->join('sales', 'sales.id', '=', 'sale_details.sale_id')
+            ->join('products', 'products.id', '=', 'sale_details.product_id')
+            ->whereDate('sales.date', '>=', $this->start_date)
+            ->whereDate('sales.date', '<=', $this->end_date)
+            ->when($this->customer_id, function ($query) {
+                $query->where('sales.customer_id', $this->customer_id);
+            })
+            ->groupBy(
+                'products.id',
+                'products.product_code',
+                'products.product_name',
+                'products.product_unit'
+            )
+            ->orderBy('products.product_name', 'asc');
+    }
+
+
     public function render()
     {
-        $sales = SaleDetails::query()
-            ->selectRaw('
-                products.product_code, 
-                products.product_name, 
-                SUM(sale_details.quantity) AS total_qty, 
-                SUM( sale_details.quantity * (sale_details.unit_price / 100) ) AS grand_total 
-            ') 
-            ->join('sales', 'sales.id', '=', 'sale_details.sale_id') 
-            ->join('products', 'products.id', '=', 'sale_details.product_id') 
-            ->whereDate('sales.date', '>=', $this->start_date) 
-            ->whereDate('sales.date', '<=', $this->end_date) 
-            ->when($this->customer_id, function ($query) { 
-                $query->where('sales.customer_id', $this->customer_id); 
-            }) 
-            ->groupBy('products.product_code', 'products.product_name') 
-            ->orderBy('products.product_name', 'asc') 
-            ->paginate(10);
-
         return view('livewire.reports.sales-per-product-report', [
-            'sales' => $sales
+            'sales' => $this->getSalesQuery()->paginate(10),
         ]);
     }
 
@@ -71,4 +86,44 @@ class SalesPerProductReport extends Component
 
         $this->resetPage();
     }
+
+
+    public function exportPdf()
+    {
+        $sales = $this->getSalesQuery()->get();
+
+        // Ambil seluruh produk sekaligus agar tidak query per produk.
+        $products = Product::with('media')
+            ->whereIn('id', $sales->pluck('product_id'))
+            ->get()
+            ->keyBy('id');
+
+        $sales->each(function ($sale) use ($products) {
+            $media = $products->get($sale->product_id)?->getFirstMedia('images');
+
+            $sale->image_base64 = null;
+
+            if ($media && is_file($media->getPath())) {
+                $path = $media->getPath();
+                $mime = mime_content_type($path);
+
+                if (in_array($mime, ['image/jpeg', 'image/png', 'image/gif'])) {
+                    $sale->image_base64 = 'data:' . $mime . ';base64,' .
+                        base64_encode(file_get_contents($path));
+                }
+            }
+        });
+
+        $pdf = Pdf::loadView('livewire.reports.sales-per-product-pdf', [
+            'sales' => $sales,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+        ])->setPaper('a4', 'portrait');
+
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            'laporan-penjualan-per-produk.pdf'
+        );
+    }
+
 }
