@@ -27,15 +27,27 @@ class SalesReport extends Component
 
     public function mount($customers) {
         $this->customers = $customers;
-        $this->start_date = today()->subDays(30)->format('Y-m-d');
-        $this->end_date = today()->format('Y-m-d');
+       
+        // Tanggal 1 bulan ini
+        $this->start_date = today()
+            ->startOfMonth()
+            ->format('Y-m-d');
+
+        // Tanggal terakhir bulan ini
+        $this->end_date = today()
+            ->endOfMonth()
+            ->format('Y-m-d');
+            
         $this->customer_id = '';
         $this->sale_status = '';
         $this->payment_status = '';
     }
 
-    public function render() {
-        $sales = Sale::whereDate('date', '>=', $this->start_date)
+    
+    public function render()
+    {
+        $sales = Sale::with(['saleDetails.product'])
+            ->whereDate('date', '>=', $this->start_date)
             ->whereDate('date', '<=', $this->end_date)
             ->when($this->customer_id, function ($query) {
                 return $query->where('customer_id', $this->customer_id);
@@ -46,12 +58,14 @@ class SalesReport extends Component
             ->when($this->payment_status, function ($query) {
                 return $query->where('payment_status', $this->payment_status);
             })
-            ->orderBy('date', 'desc')->paginate(10);
+            ->orderBy('date', 'desc')
+            ->paginate(10);
 
         return view('livewire.reports.sales-report', [
             'sales' => $sales
         ]);
     }
+
 
     public function generateReport() {
         $this->validate();
