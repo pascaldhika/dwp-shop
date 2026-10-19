@@ -9,7 +9,7 @@
     <title>Katalog | {{ config('app.name') }}</title>
     <meta
       name="description"
-      content="Browse the menu, build your order and check out — a responsive, mobile-first food ordering interface."
+      content="{{ config('app.name') }} DWP Ponorogo"
     />
 
     <!-- Favicon -->
