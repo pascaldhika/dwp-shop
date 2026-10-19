@@ -16,6 +16,15 @@ class CustomersDataTable extends DataTable
     public function dataTable($query) {
         return datatables()
             ->eloquent($query)
+            ->editColumn('min_order', function ($data) {
+                return format_currency($data->min_order);
+            })
+            ->editColumn('updated_at', function ($data) {
+                return \Carbon\Carbon::parse($data->updated_at)
+                    ->timezone('Asia/Jakarta')
+                    ->locale('id')
+                    ->translatedFormat('d F Y H:i:s');
+            })
             ->addColumn('action', function ($data) {
                 return view('people::customers.partials.actions', compact('data'));
             });
@@ -49,16 +58,20 @@ class CustomersDataTable extends DataTable
     protected function getColumns() {
         return [
             Column::make('customer_name')
-                ->className('text-center align-middle'),
-
-            Column::make('customer_email')
-                ->className('text-center align-middle'),
+                ->title('Nama')
+                ->className('text-left align-middle'),
 
             Column::make('customer_phone')
+                ->title('No HP')
                 ->className('text-center align-middle'),
                 
-            Column::make('category')
+            Column::make('min_order')
+                ->title('Minimal Order')
                 ->className('text-center align-middle'),
+
+            Column::make('updated_at')
+                ->title('Terakhir Diubah')
+                ->className('text-left align-middle'),
 
             Column::computed('action')
                 ->exportable(false)

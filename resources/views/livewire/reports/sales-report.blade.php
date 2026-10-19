@@ -99,7 +99,12 @@
                         <tbody>
                         @forelse($sales as $sale)
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($sale->date)->format('d M, Y') }}</td>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($sale->created_at)
+                                        ->timezone('Asia/Jakarta')
+                                        ->locale('id')
+                                        ->translatedFormat('d F Y H:i:s') }}
+                                </td>
                                 <td>{{ $sale->customer_name }}</td>
                                 <td>
                                     <ol class="mb-0 ps-3">
