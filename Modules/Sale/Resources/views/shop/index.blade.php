@@ -22,7 +22,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=5">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v=6">
   </head>
   <body>
 
