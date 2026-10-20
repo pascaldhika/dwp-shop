@@ -285,9 +285,9 @@
 
         <p class="ticket__warning">
             * Jika belanjaan kurang akan ditambahkan dari daftar produk berikut:<br>
-            1. XXX<br>
-            2. YYY<br>
-            3. ZZZ
+            1. Rp 1.000 - 10.000 = Sunlight<br>
+            2. Rp 11.000-20.000 = Sunlight Bundling<br>
+            3. Rp 20.000 - 50.000 = Minyak sunco 1 liter/2 liter
         </p>
 
         <button class="btn btn--primary btn--block" id="checkoutBtn">
@@ -345,4 +345,4 @@
 </script>
 @endif
 
-<script src="{{ asset('js/script.js') }}?v=3"></script>
+<script src="{{ asset('js/script.js') }}?v=4"></script>

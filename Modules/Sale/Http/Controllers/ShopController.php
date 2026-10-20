@@ -94,7 +94,7 @@ class ShopController extends Controller
         if ($existingSale) {
             return response()->json([
                 'success' => false,
-                'message' => 'Anda sudah memiliki transaksi pada bulan ini. Transaksi baru tidak dapat dilakukan.'
+                'message' => 'Sudah ada transaksi di bulan ini.'
             ], 422);
         }
 

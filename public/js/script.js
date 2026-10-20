@@ -318,7 +318,8 @@
       renderCart();
 
       if (!quiet) {
-          showToast(`Menambahkan ${dish.name} ke keranjang belanja.`);
+        showToast(`Ditambahkan ke keranjang.`);
+        // showToast(`Menambahkan ${dish.name} ke keranjang belanja.`);
       }
   }
 
