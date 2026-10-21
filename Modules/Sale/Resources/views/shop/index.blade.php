@@ -286,7 +286,7 @@
         <p class="ticket__warning">
             * Jika belanjaan kurang akan ditambahkan dari daftar produk berikut:<br>
             1. Rp 1.000 - 10.000 = Sunlight<br>
-            2. Rp 11.000-20.000 = Sunlight Bundling<br>
+            2. Rp 11.000 - 20.000 = Sunlight Bundling<br>
             3. Rp 20.000 - 50.000 = Minyak sunco 1 liter/2 liter
         </p>
 

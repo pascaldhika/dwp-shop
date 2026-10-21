@@ -14,6 +14,8 @@ use Modules\Sale\Entities\SaleDetails;
 use Modules\Sale\Entities\SalePayment;
 use Modules\Sale\Http\Requests\StoreSaleRequest;
 use Modules\Sale\Http\Requests\UpdateSaleRequest;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SaleController extends Controller
 {
@@ -229,5 +231,41 @@ class SaleController extends Controller
         toast('Sale Deleted!', 'warning');
 
         return redirect()->route('sales.index');
+    }
+
+    public function cetakNota() {
+        $customers = Customer::all();
+
+        return view('sale::cetak-nota', compact('customers'));
+    }
+
+    public function exportNotaPdf(Request $request)
+    {
+        $request->validate([
+            'start_date' => ['nullable', 'date'],
+            'end_date'   => ['nullable', 'date', 'after_or_equal:start_date'],
+        ]);
+
+        $query = Sale::with([
+            'saleDetails.product',
+        ])->orderBy('date')->orderBy('id');
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('date', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('date', '<=', $request->end_date);
+        }
+
+        $sales = $query->get();
+
+        $pdf = Pdf::loadView('sale::print-pos-nota', [
+            'sales' => $sales,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->stream('cetak-nota-penjualan.pdf');
     }
 }

@@ -533,9 +533,9 @@
 
       showToast("Transaksi berhasil disimpan");
 
-      setTimeout(() => {
+      // setTimeout(() => {
         window.location.href = window.SHOP_HISTORY_URL;
-      }, 2000);    
+      // }, 2000);    
 
     } catch (error) {
         console.error(error);

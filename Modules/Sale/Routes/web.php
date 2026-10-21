@@ -50,6 +50,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         return $pdf->stream('sale-'. $sale->reference .'.pdf');
     })->name('sales.pos.pdf');
+    
+    Route::get('/sale/pos/cetak-nota', 'SaleController@cetakNota')->name('sales.pos.cetak-nota');
+    Route::get('/sale/pos/cetak-nota-pdf', 'SaleController@exportNotaPdf')->name('sales.pos.cetak-nota-pdf');
 
     //Sales
     Route::resource('sales', 'SaleController');

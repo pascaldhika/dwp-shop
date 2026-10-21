@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-body">
                         @include('utils.alerts')
-                        <form id="sale-form" action="{{ route('sales.store') }}" method="POST">
+                        <form id="sale-form" action="{{ route('sales.store') }}" method="GET">
                             @csrf
 
                             <div class="form-row">

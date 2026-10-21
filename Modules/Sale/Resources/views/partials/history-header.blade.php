@@ -6,7 +6,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Riwayat Transaksi || {{ config('app.name') }}</title>
+    <title>Riwayat Transaksi | {{ config('app.name') }}</title>
 
     <link rel="icon" href="{{ asset('images/favicon.png') }}">
 

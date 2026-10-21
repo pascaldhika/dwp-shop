@@ -30,6 +30,12 @@ class SalesDataTable extends DataTable
             ->addColumn('payment_status', function ($data) {
                 return view('sale::partials.payment-status', compact('data'));
             })
+            ->editColumn('date', function ($data) {
+                return \Carbon\Carbon::parse($data->date)
+                    ->timezone('Asia/Jakarta')
+                    ->locale('id')
+                    ->translatedFormat('d F Y');
+            })
             ->addColumn('action', function ($data) {
                 return view('sale::partials.actions', compact('data'));
             });
@@ -62,7 +68,8 @@ class SalesDataTable extends DataTable
 
     protected function getColumns() {
         return [
-            Column::make('reference')
+            Column::make('date')
+                ->title('Tanggal')
                 ->className('text-center align-middle'),
 
             Column::make('customer_name')

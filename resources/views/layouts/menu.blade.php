@@ -61,6 +61,13 @@
                 </a>
             </li>
         </ul>
+        <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('sales.pos.cetak-nota') ? 'c-active' : '' }}" href="{{ route('sales.pos.cetak-nota') }}">
+                    <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Cetak Nota Penjualan
+                </a>
+            </li>
+        </ul>
     </li>
 @endcan
 
