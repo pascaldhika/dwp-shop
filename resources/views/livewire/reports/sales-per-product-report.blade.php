@@ -52,10 +52,10 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <button onclick="exportTableToExcel('table-to-export', 'lap-penjualan-per-produk')" class="btn btn-success">
+                    <!-- <button onclick="exportTableToExcel('table-to-export', 'lap-penjualan-per-produk')" class="btn btn-success">
                         <i class="bi bi-file"></i>
                         Export Excel
-                    </button>
+                    </button> -->
 
                     <button
                         type="button"

@@ -76,11 +76,29 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <button onclick="exportTableToExcel('table-to-export', 'exported-table')" class="btn btn-success">
+                    <!-- <button onclick="exportTableToExcel('table-to-export', 'exported-table')" class="btn btn-success">
                         <i class="bi bi-file"></i>
                         Export Excel
-                    </button>
+                    </button> -->
 
+                    <button
+                        type="button"
+                        wire:click="exportPdf"
+                        wire:loading.attr="disabled"
+                        wire:target="exportPdf"
+                        class="btn btn-danger">
+
+                        <span wire:loading.remove wire:target="exportPdf">
+                            <i class="bi bi-file-pdf"></i>
+                            Export PDF
+                        </span>
+
+                        <span wire:loading wire:target="exportPdf">
+                            <span class="spinner-border spinner-border-sm"></span>
+                            Membuat PDF...
+                        </span>
+                    </button>
+                    
                     <hr>
                     
                     <table id="table-to-export" class="table table-bordered table-striped mb-0">

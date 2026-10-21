@@ -47,7 +47,14 @@
     <h3>LAPORAN PENJUALAN PER PRODUK</h3>
 
     <div class="periode">
-        Periode {{ $start_date }} s.d. {{ $end_date }}
+        Periode {{ \Carbon\Carbon::parse($start_date)
+                    ->timezone('Asia/Jakarta')
+                    ->locale('id')
+                    ->translatedFormat('d F Y') }} s.d.
+                {{ \Carbon\Carbon::parse($end_date)
+                    ->timezone('Asia/Jakarta')
+                    ->locale('id')
+                    ->translatedFormat('d F Y') }}
     </div>
 
     <table>

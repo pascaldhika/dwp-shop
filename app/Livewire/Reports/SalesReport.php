@@ -5,6 +5,7 @@ namespace App\Livewire\Reports;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Sale\Entities\Sale;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SalesReport extends Component
 {
@@ -43,10 +44,10 @@ class SalesReport extends Component
         $this->payment_status = '';
     }
 
-    
-    public function render()
+
+    protected function getSalesQuery()
     {
-        $sales = Sale::with(['saleDetails.product'])
+        return Sale::with(['saleDetails.product'])
             ->whereDate('date', '>=', $this->start_date)
             ->whereDate('date', '<=', $this->end_date)
             ->when($this->customer_id, function ($query) {
@@ -58,11 +59,14 @@ class SalesReport extends Component
             ->when($this->payment_status, function ($query) {
                 return $query->where('payment_status', $this->payment_status);
             })
-            ->orderBy('date', 'desc')
-            ->paginate(10);
+            ->orderBy('date', 'desc');
+    }
 
+    
+    public function render()
+    {
         return view('livewire.reports.sales-report', [
-            'sales' => $sales
+            'sales' => $this->getSalesQuery()->paginate(10),
         ]);
     }
 
@@ -70,5 +74,21 @@ class SalesReport extends Component
     public function generateReport() {
         $this->validate();
         $this->render();
+    }
+
+    public function exportPdf()
+    {
+        $sales = $this->getSalesQuery()->get();
+
+        $pdf = Pdf::loadView('livewire.reports.sales-pdf', [
+            'sales' => $sales,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+        ])->setPaper('a4', 'portrait');
+
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            'laporan-penjualan.pdf'
+        );
     }
 }
