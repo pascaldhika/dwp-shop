@@ -19,12 +19,24 @@ class Sale extends Model
         return $this->hasMany(SalePayment::class, 'sale_id', 'id');
     }
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
         static::creating(function ($model) {
-            $number = Sale::max('id') + 1;
-            $model->reference = make_reference_id('SL', $number);
+            $yearMonth = now()->format('Ym');
+
+            $lastSale = Sale::where('reference', 'like', $yearMonth . '%')
+                ->orderBy('reference', 'desc')
+                ->first();
+
+            $lastNumber = $lastSale
+                ? (int) substr($lastSale->reference, 6)
+                : 0;
+
+            $nextNumber = $lastNumber + 1;
+
+            $model->reference = $yearMonth . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
         });
     }
 
