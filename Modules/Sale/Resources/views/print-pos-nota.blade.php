@@ -7,7 +7,7 @@
     <style>
         @page {
             size: A4 portrait;
-            margin: 3mm;
+            margin: 2mm;
         }
 
         * {
@@ -38,7 +38,7 @@
         .layout-nota {
             width: 100%;
             height: 276mm;
-            border-collapse: collapse;
+            /* border-collapse: collapse; */
             table-layout: fixed;
         }
 
@@ -56,8 +56,8 @@
         /* KOTAK NOTA */
         .nota {
             width: 100%;
-            height: 88mm;
-            padding: 3mm;
+            height: 72mm;
+            padding: 1mm;
             border: 1px solid #000;
             overflow: hidden;
         }
@@ -109,13 +109,13 @@
         .garis-header {
             border: 0;
             border-top: 1px solid #000;
-            margin: 5px 0 4px;
+            margin: 3px 0 2px;
         }
 
         /* NOMOR NOTA */
         .nomor-nota {
             width: 100%;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             border-collapse: collapse;
         }
 
@@ -131,14 +131,15 @@
         /* TABEL BARANG */
         .tabel-barang {
             width: 100%;
+            max-width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
-            font-size: 10px;
+            font-size: 9px;
         }
 
         .tabel-barang th,
         .tabel-barang td {
-            padding: 3px 2px;
+            padding: 2px 1px;
             border-bottom: 1px solid #ccc;
         }
 
@@ -179,20 +180,22 @@
             border: 1px solid #000;
             text-align: center;
             vertical-align: middle;
-            padding: 5px 2px;
-            font-size: 9px;
-            height: 25px;
+            padding: 3px 1px;
+            font-size: 8px;
+            height: 21px;
+            line-height: 1.05;
         }
 
         .angka {
             text-align: right;
-            white-space: nowrap;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         /* TOTAL */
         .total-layout {
             width: 100%;
-            margin-top: 5px;
+            margin-top: 3px;
             border-collapse: collapse;
         }
 
@@ -341,7 +344,7 @@
                                         </tr>
                                     </thead>
 
-                                    <tbody 1px solid #000; class="tbody-barang">
+                                    <tbody class="tbody-barang">
                                         @foreach ($sale->saleDetails as $index => $detail)
                                             <tr>
                                                 <td class="kol-no">

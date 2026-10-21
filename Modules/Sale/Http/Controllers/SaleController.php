@@ -248,7 +248,7 @@ class SaleController extends Controller
 
         $query = Sale::with([
             'saleDetails.product',
-        ])->orderBy('date')->orderBy('id');
+        ])->orderBy('id');
 
         if ($request->filled('start_date')) {
             $query->whereDate('date', '>=', $request->start_date);
@@ -258,13 +258,20 @@ class SaleController extends Controller
             $query->whereDate('date', '<=', $request->end_date);
         }
 
+        if ($request->filled('customer_id')) {
+            $query->where('customer_id', $request->customer_id);
+        }
+
         $sales = $query->get();
 
+        // return view('sale::print-pos-nota', [
         $pdf = Pdf::loadView('sale::print-pos-nota', [
             'sales' => $sales,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-        ])->setPaper('a4', 'portrait');
+            'customer_id' => $request->customer_id,
+        ])
+        ->setPaper('a4', 'portrait');
 
         return $pdf->stream('cetak-nota-penjualan.pdf');
     }

@@ -345,4 +345,4 @@
 </script>
 @endif
 
-<script src="{{ asset('js/script.js') }}?v=4"></script>
+<script src="{{ asset('js/script.js') }}?v=5"></script>
