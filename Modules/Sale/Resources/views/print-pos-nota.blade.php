@@ -56,7 +56,7 @@
         /* KOTAK NOTA */
         .nota {
             width: 100%;
-            height: 72mm;
+            height: 78mm;
             padding: 1mm;
             border: 1px solid #000;
             overflow: hidden;
@@ -117,6 +117,7 @@
             width: 100%;
             margin-bottom: 2px;
             border-collapse: collapse;
+            font-size: 10px;
         }
 
         .nomor-nota td {
@@ -134,7 +135,7 @@
             max-width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
-            font-size: 9px;
+            font-size: 9.5px;
         }
 
         .tabel-barang th,
@@ -175,7 +176,7 @@
         }
 
         thead th {
-            background: #002060;
+            background: #01349b;
             color: #fff;
             border: 1px solid #000;
             text-align: center;
@@ -373,6 +374,29 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+
+                                        {{-- ITEM KRESEK --}}
+                                        <tr>
+                                            <td class="kol-no">
+                                                {{ $sale->saleDetails->count() + 1 }}
+                                            </td>
+
+                                            <td class="kol-barang">
+                                                KRESEK
+                                            </td>
+
+                                            <td class="kol-jumlah">
+                                                1
+                                            </td>
+
+                                            <td class="kol-harga angka">
+                                                1.000
+                                            </td>
+
+                                            <td class="kol-total angka">
+                                                1.000
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -386,7 +410,7 @@
 
                                             <td class="total-nominal">
                                                 {{ number_format(
-                                                    $sale->total_amount,
+                                                    (float) $sale->total_amount + 1000,
                                                     0,
                                                     ',',
                                                     '.'
