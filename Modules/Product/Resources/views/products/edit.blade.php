@@ -84,8 +84,8 @@
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="product_quantity">Jumlah <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="product_quantity" required value="{{ $product->product_quantity }}" min="1">
+                                        <label for="product_quantity">Jumlah  <i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="Isi 0 jika ingin produk tidak tampil di katalog."></i> <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" name="product_quantity" required value="{{ $product->product_quantity }}" min="0">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="product_unit">Satuan <i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="This short text will be placed after Product Quantity."></i> <span class="text-danger">*</span></label>
+                                        <label for="product_unit">Satuan <i class="bi bi-question-circle-fill text-info" data-toggle="tooltip" data-placement="top" title="Singkatan ini akan ditempatkan setelah Kuantitas Produk."></i> <span class="text-danger">*</span></label>
                                         <select class="form-control" name="product_unit" id="product_unit" required>
                                             <option value="" selected >Select Unit</option>
                                             @foreach(\Modules\Setting\Entities\Unit::all() as $unit)

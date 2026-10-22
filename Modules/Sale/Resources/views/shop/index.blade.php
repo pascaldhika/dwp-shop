@@ -304,6 +304,7 @@
 
 @php
     $menuData = \Modules\Product\Entities\Product::with('category')
+        ->where('product_quantity', '>', 0)
         ->get()
         ->map(function ($product) {
             $media = $product->getFirstMedia('images');
