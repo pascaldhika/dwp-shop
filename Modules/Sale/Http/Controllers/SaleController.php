@@ -298,9 +298,13 @@ class SaleController extends Controller
             $query->whereDate('date', '<=', $request->end_date);
         }
 
-        $sales = $query->get();
+        $sales = $query->get()
+            ->map(function ($sale) {
+                $sale->total_rekap = ($sale->total_amount ?? 0) + 1000;
+                return $sale;
+        });
 
-        $totalKeseluruhan = $sales->sum('total_amount');
+        $totalKeseluruhan = $sales->sum('total_rekap');
 
         // return view('sale::print-pos-nota', [
         $pdf = Pdf::loadView('sale::print-pos-rekap', [

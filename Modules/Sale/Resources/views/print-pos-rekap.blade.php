@@ -127,7 +127,7 @@
                     </td>
 
                     <td class="nominal">
-                        {{ number_format($sale->total_amount ?? 0, 0, ',', '.') }}
+                        {{ number_format($sale->total_rekap ?? 0, 0, ',', '.') }}
                     </td>
 
                     <td>
