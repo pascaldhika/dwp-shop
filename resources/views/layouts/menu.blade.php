@@ -68,6 +68,13 @@
                 </a>
             </li>
         </ul>
+        <ul class="c-sidebar-nav-dropdown-items">
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link {{ request()->routeIs('sales.pos.rekap') ? 'c-active' : '' }}" href="{{ route('sales.pos.rekap') }}">
+                    <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Rekap Penjualan
+                </a>
+            </li>
+        </ul>
     </li>
 @endcan
 

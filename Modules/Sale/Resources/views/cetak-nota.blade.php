@@ -22,40 +22,56 @@
                     <form id="sale-form" action="{{ route('sales.pos.cetak-nota-pdf') }}" method="GET">
                         @csrf
                         <div class="form-row">
-                            <div class="col-lg-4">
+                            {{-- Filter Tahun --}}
+                            <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>Start Date <span class="text-danger">*</span></label>
-                                    <input wire:model="start_date" type="date" class="form-control" name="start_date">
-                                    @error('start_date')
-                                    <span class="text-danger mt-1">{{ $message }}</span>
-                                    @enderror
+                                    <label>Tahun <span class="text-danger">*</span></label>
+
+                                    <select name="tahun" class="form-control" required>
+                                        @for ($year = date('Y'); $year >= date('Y') - 5; $year--)
+                                            <option value="{{ $year }}"
+                                                {{ request('tahun', date('Y')) == $year ? 'selected' : '' }}>
+                                                {{ $year }}
+                                            </option>
+                                        @endfor
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+
+                            {{-- Filter Bulan --}}
+                            <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>End Date <span class="text-danger">*</span></label>
-                                    <input wire:model="end_date" type="date" class="form-control" name="end_date">
-                                    @error('end_date')
-                                    <span class="text-danger mt-1">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label>Customer</label>
-                                    <select wire:model="customer_id" class="form-control" name="customer_id">
-                                        <option value="">Semua</option>
-                                        @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                                    <label>Bulan <span class="text-danger">*</span></label>
+
+                                    <select name="bulan" class="form-control" required>
+                                        @foreach ([
+                                            1 => 'Januari',
+                                            2 => 'Februari',
+                                            3 => 'Maret',
+                                            4 => 'April',
+                                            5 => 'Mei',
+                                            6 => 'Juni',
+                                            7 => 'Juli',
+                                            8 => 'Agustus',
+                                            9 => 'September',
+                                            10 => 'Oktober',
+                                            11 => 'November',
+                                            12 => 'Desember'
+                                        ] as $nomor => $namaBulan)
+                                            <option value="{{ $nomor }}"
+                                                {{ request('bulan', date('n')) == $nomor ? 'selected' : '' }}>
+                                                {{ $namaBulan }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group mb-0">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-shuffle"></i>
-                                Cetak Nota
+                                Cetak
                             </button>
                         </div>
                     </form>

@@ -242,13 +242,53 @@ class SaleController extends Controller
     public function exportNotaPdf(Request $request)
     {
         $request->validate([
-            'start_date' => ['nullable', 'date'],
-            'end_date'   => ['nullable', 'date', 'after_or_equal:start_date'],
+            'tahun' => ['required', 'integer', 'min:2000', 'max:2100'],
+            'bulan' => ['required', 'integer', 'between:1,12'],
         ]);
+
+        $tahun = (int) $request->tahun;
+        $bulan = (int) $request->bulan;
 
         $query = Sale::with([
             'saleDetails.product',
-        ])->orderBy('id');
+        ])
+        ->whereYear('date', $tahun)
+        ->whereMonth('date', $bulan)
+        ->orderBy('id');
+
+        $sales = $query->get();
+
+        // return view('sale::print-pos-nota', [
+        $pdf = Pdf::loadView('sale::print-pos-nota', [
+            'sales' => $sales,
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+        ])
+        ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('cetak-nota-' . $tahun . '-' . str_pad($bulan, 2, '0', STR_PAD_LEFT) . '.pdf');
+    }
+
+    public function rekap() {
+        return view('sale::rekap');
+    }
+
+    public function exportRekapPdf(Request $request)
+    {
+        $request->validate([
+            'tahun' => ['required', 'integer', 'min:2000', 'max:2100'],
+            'bulan' => ['required', 'integer', 'between:1,12'],
+        ]);
+
+        $tahun = (int) $request->tahun;
+        $bulan = (int) $request->bulan;
+
+        $query = Sale::with([
+            'saleDetails.product',
+        ])
+        ->whereYear('date', $tahun)
+        ->whereMonth('date', $bulan)
+        ->orderBy('id');
 
         if ($request->filled('start_date')) {
             $query->whereDate('date', '>=', $request->start_date);
@@ -258,21 +298,19 @@ class SaleController extends Controller
             $query->whereDate('date', '<=', $request->end_date);
         }
 
-        if ($request->filled('customer_id')) {
-            $query->where('customer_id', $request->customer_id);
-        }
-
         $sales = $query->get();
 
+        $totalKeseluruhan = $sales->sum('total_amount');
+
         // return view('sale::print-pos-nota', [
-        $pdf = Pdf::loadView('sale::print-pos-nota', [
+        $pdf = Pdf::loadView('sale::print-pos-rekap', [
             'sales' => $sales,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'customer_id' => $request->customer_id,
+            'totalKeseluruhan' => $totalKeseluruhan,
+            'tahun' => $tahun,
+            'bulan' => $bulan,
         ])
         ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('cetak-nota-penjualan.pdf');
+        return $pdf->stream('rekap-sales-' . $tahun . '-' . str_pad($bulan, 2, '0', STR_PAD_LEFT) . '.pdf');
     }
 }

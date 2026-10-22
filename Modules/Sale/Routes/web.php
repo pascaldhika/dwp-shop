@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/sale/pos/cetak-nota', 'SaleController@cetakNota')->name('sales.pos.cetak-nota');
     Route::get('/sale/pos/cetak-nota-pdf', 'SaleController@exportNotaPdf')->name('sales.pos.cetak-nota-pdf');
+    Route::get('/sale/pos/rekap', 'SaleController@rekap')->name('sales.pos.rekap');
+    Route::get('/sale/pos/rekap-pdf', 'SaleController@exportRekapPdf')->name('sales.pos.rekap-pdf');
 
     //Sales
     Route::resource('sales', 'SaleController');
