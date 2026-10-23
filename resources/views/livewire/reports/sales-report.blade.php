@@ -76,17 +76,13 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <!-- <button onclick="exportTableToExcel('table-to-export', 'exported-table')" class="btn btn-success">
-                        <i class="bi bi-file"></i>
-                        Export Excel
-                    </button> -->
 
                     <button
                         type="button"
                         wire:click="exportPdf"
                         wire:loading.attr="disabled"
                         wire:target="exportPdf"
-                        class="btn btn-danger">
+                        class="btn btn-danger mb-3">
 
                         <span wire:loading.remove wire:target="exportPdf">
                             <i class="bi bi-file-pdf"></i>
@@ -98,60 +94,89 @@
                             Membuat PDF...
                         </span>
                     </button>
-                    
+
                     <hr>
-                    
-                    <table id="table-to-export" class="table table-bordered table-striped mb-0">
-                        <div wire:loading.flex class="col-12 position-absolute justify-content-center align-items-center" style="top:0;right:0;left:0;bottom:0;background-color: rgba(255,255,255,0.5);z-index: 99;">
+
+                    {{-- Wrapper untuk membuat tabel responsive --}}
+                    <div class="table-responsive position-relative">
+
+                        {{-- Loading overlay --}}
+                        <div
+                            wire:loading.flex
+                            wire:target="exportPdf"
+                            class="position-absolute justify-content-center align-items-center"
+                            style="top:0;right:0;left:0;bottom:0;
+                                background-color:rgba(255,255,255,0.5);
+                                z-index:99;">
+
                             <div class="spinner-border text-primary" role="status">
-                                <span class="sr-only">Loading...</span>
+                                <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
-                        <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Nama</th>
-                            <th>List Belanja</th>
-                            <th>Total</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($sales as $sale)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($sale->created_at)
-                                        ->timezone('Asia/Jakarta')
-                                        ->locale('id')
-                                        ->translatedFormat('d F Y H:i:s') }}
-                                </td>
-                                <td>{{ $sale->customer_name }}</td>
-                                <td>
-                                    <ol class="mb-0 ps-3">
-                                        @foreach ($sale->saleDetails as $detail)
-                                            <li>
-                                                {{ $detail->product->product_name ?? 'Produk tidak ditemukan' }}
-                                                ({{ number_format($detail->quantity, 0, ',', '.') }}
-                                                {{ $detail->product->product_unit ?? '' }})
-                                            </li>
-                                        @endforeach
-                                    </ol>
-                                </td>
-                                <td style="text-align: right;">{{ format_currency($sale->total_amount) }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5">
-                                    <span class="text-danger">No Sales Data Available!</span>
-                                </td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
+
+                        <table id="table-to-export"
+                            class="table table-bordered table-striped mb-0">
+
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama</th>
+                                    <th>List Belanja</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @forelse($sales as $sale)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+
+                                        <td class="text-nowrap">
+                                            {{ \Carbon\Carbon::parse($sale->created_at)
+                                                ->timezone('Asia/Jakarta')
+                                                ->locale('id')
+                                                ->translatedFormat('d F Y H:i:s') }}
+                                        </td>
+
+                                        <td>
+                                            {{ $sale->customer_name }}
+                                        </td>
+
+                                        <td>
+                                            <ol class="mb-0 ps-3">
+                                                @foreach ($sale->saleDetails as $detail)
+                                                    <li>
+                                                        {{ $detail->product->product_name ?? 'Produk tidak ditemukan' }}
+                                                        ({{ number_format($detail->quantity, 0, ',', '.') }}
+                                                        {{ $detail->product->product_unit ?? '' }})
+                                                    </li>
+                                                @endforeach
+                                            </ol>
+                                        </td>
+
+                                        <td class="text-end text-nowrap">
+                                            {{ format_currency($sale->total_amount) }}
+                                        </td>
+                                    </tr>
+
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center text-danger">
+                                            No Sales Data Available!
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    {{-- Pagination --}}
                     <div @class(['mt-3' => $sales->hasPages()])>
                         {{ $sales->links() }}
                     </div>
+
                 </div>
             </div>
         </div>
