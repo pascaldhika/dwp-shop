@@ -60,6 +60,7 @@
     <table>
         <thead>
             <tr>
+                <th>No</th>
                 <th>Gambar</th>
                 <th>Nama Produk</th>
                 <th>Total</th>
@@ -68,6 +69,7 @@
         <tbody>
             @forelse ($sales as $sale)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td class="center">
                         @if ($sale->image_base64)
                             <img src="{{ $sale->image_base64 }}" class="gambar">
@@ -83,7 +85,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3" class="center">
+                    <td colspan="4" class="center">
                         Tidak ada data penjualan.
                     </td>
                 </tr>

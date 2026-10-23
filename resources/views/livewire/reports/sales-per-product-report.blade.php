@@ -95,6 +95,7 @@
                         
                             <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Gambar</th>
                                 <th>Nama Produk</th>
                                 <th>Total</th>
@@ -103,6 +104,7 @@
                             <tbody>
                             @forelse($sales as $sale)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>
                                         @php
                                             $product = \Modules\Product\Entities\Product::find($sale->product_id);
@@ -128,7 +130,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3">
+                                    <td colspan="4">
                                         <span class="text-center text-danger">No Sale Data Available!</span>
                                     </td>
                                 </tr>
