@@ -66,7 +66,7 @@ class SalesReport extends Component
     public function render()
     {
         return view('livewire.reports.sales-report', [
-            'sales' => $this->getSalesQuery()->paginate(10),
+            'sales' => $this->getSalesQuery()->paginate(50),
         ]);
     }
 

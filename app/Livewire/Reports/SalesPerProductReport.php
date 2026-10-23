@@ -76,7 +76,7 @@ class SalesPerProductReport extends Component
     public function render()
     {
         return view('livewire.reports.sales-per-product-report', [
-            'sales' => $this->getSalesQuery()->paginate(10),
+            'sales' => $this->getSalesQuery()->paginate(50),
         ]);
     }
 
