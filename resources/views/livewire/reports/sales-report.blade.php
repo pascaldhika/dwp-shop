@@ -109,14 +109,17 @@
                         </div>
                         <thead>
                         <tr>
+                            <th>No</th>
                             <th>Tanggal</th>
                             <th>Nama</th>
                             <th>List Belanja</th>
+                            <th>Total</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($sales as $sale)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     {{ \Carbon\Carbon::parse($sale->created_at)
                                         ->timezone('Asia/Jakarta')
@@ -135,10 +138,11 @@
                                         @endforeach
                                     </ol>
                                 </td>
+                                <td style="text-align: right;">{{ format_currency($sale->total_amount) }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8">
+                                <td colspan="5">
                                     <span class="text-danger">No Sales Data Available!</span>
                                 </td>
                             </tr>
