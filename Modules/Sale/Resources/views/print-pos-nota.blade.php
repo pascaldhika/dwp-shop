@@ -56,7 +56,7 @@
         /* KOTAK NOTA */
         .nota {
             width: 100%;
-            height: 78mm;
+            height: 85mm;
             padding: 1mm;
             border: 1px solid #000;
             overflow: hidden;

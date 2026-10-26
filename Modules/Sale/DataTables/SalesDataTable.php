@@ -18,12 +18,6 @@ class SalesDataTable extends DataTable
             ->addColumn('total_amount', function ($data) {
                 return format_currency($data->total_amount);
             })
-            ->addColumn('paid_amount', function ($data) {
-                return format_currency($data->paid_amount);
-            })
-            ->addColumn('due_amount', function ($data) {
-                return format_currency($data->due_amount);
-            })
             ->addColumn('status', function ($data) {
                 return view('sale::partials.status', compact('data'));
             })
@@ -53,7 +47,7 @@ class SalesDataTable extends DataTable
             ->dom("<'row'<'col-md-3'l><'col-md-5 mb-2'B><'col-md-4'f>> .
                                 'tr' .
                                 <'row'<'col-md-5'i><'col-md-7 mt-2'p>>")
-            ->orderBy(8)
+            ->orderBy(0, 'desc')
             ->buttons(
                 Button::make('excel')
                     ->text('<i class="bi bi-file-earmark-excel-fill"></i> Excel'),
@@ -81,12 +75,6 @@ class SalesDataTable extends DataTable
 
             Column::computed('total_amount')
                 ->title('Total')
-                ->className('text-center align-middle'),
-
-            Column::computed('paid_amount')
-                ->className('text-center align-middle'),
-
-            Column::computed('due_amount')
                 ->className('text-center align-middle'),
 
             Column::computed('payment_status')

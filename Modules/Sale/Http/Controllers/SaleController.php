@@ -140,6 +140,7 @@ class SaleController extends Controller
                     'code'        => $sale_detail->product_code,
                     'stock'       => Product::findOrFail($sale_detail->product_id)->product_quantity,
                     'product_tax' => $sale_detail->product_tax_amount,
+                    'purchase_price'  => $sale_detail->purchase_price?? $sale_detail->unit_price,
                     'unit_price'  => $sale_detail->unit_price
                 ]
             ]);
@@ -200,6 +201,7 @@ class SaleController extends Controller
                     'quantity' => $cart_item->qty,
                     'price' => $cart_item->price * 100,
                     'unit_price' => $cart_item->options->unit_price * 100,
+                    'purchase_price' => $cart_item->options->purchase_price * 100,
                     'sub_total' => $cart_item->options->sub_total * 100,
                     'product_discount_amount' => $cart_item->options->product_discount * 100,
                     'product_discount_type' => $cart_item->options->product_discount_type,

@@ -30,6 +30,10 @@ class SaleDetails extends Model
         return $value / 100;
     }
 
+    public function getPurchasePriceAttribute($value) {
+        return $value / 100;
+    }
+
     public function getSubTotalAttribute($value) {
         return $value / 100;
     }
