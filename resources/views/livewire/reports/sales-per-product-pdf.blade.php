@@ -64,13 +64,14 @@
                 <th>Gambar</th>
                 <th>Nama Produk</th>
                 <th>Total</th>
+                <th>Pelanggan</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($sales as $sale)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td class="center">
+                    <td>
                         @if ($sale->image_base64)
                             <img src="{{ $sale->image_base64 }}" class="gambar">
                         @else
@@ -78,14 +79,24 @@
                         @endif
                     </td>
                     <td>{{ $sale->product_name }}</td>
-                    <td class="center">
+                    <td>
                         {{ number_format($sale->total_qty, 0, ',', '.') }}
-                        {{ $sale->product_unit }}
+                    </td>
+                    <td>
+                        <ol class="mb-0 ps-3">
+                            @foreach (explode('|||', $sale->customer_names ?? '') as $customer)
+                                @if (trim($customer) !== '')
+                                    <li>
+                                        {{ $customer }}
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ol>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="center">
+                    <td colspan="5" class="center">
                         Tidak ada data penjualan.
                     </td>
                 </tr>

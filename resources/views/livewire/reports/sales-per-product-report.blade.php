@@ -99,13 +99,14 @@
                                 <th>Gambar</th>
                                 <th>Nama Produk</th>
                                 <th>Total</th>
+                                <th>Pelanggan</th>
                             </tr>
                             </thead>
                             <tbody>
                             @forelse($sales as $sale)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>
+                                    <td class="center">
                                         @php
                                             $product = \Modules\Product\Entities\Product::find($sale->product_id);
                                             $media = $product?->getFirstMedia('images');
@@ -126,11 +127,22 @@
                                         @endif
                                     </td>
                                     <td>{{ $sale->product_name }}</td>
-                                    <td>{{ $sale->total_qty }} {{ $sale->product_unit }}</td>
+                                    <td class="center">{{ $sale->total_qty }}</td>
+                                    <td>
+                                        <ol class="mb-0 ps-3">
+                                            @foreach (explode('|||', $sale->customer_names ?? '') as $customer)
+                                                @if (trim($customer) !== '')
+                                                    <li>
+                                                        {{ $customer }}
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ol>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="5">
                                         <span class="text-center text-danger">No Sale Data Available!</span>
                                     </td>
                                 </tr>

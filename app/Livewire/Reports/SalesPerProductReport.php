@@ -54,10 +54,41 @@ class SalesPerProductReport extends Component
                 SUM(sale_details.quantity) AS total_qty,
                 SUM(
                     sale_details.quantity * (sale_details.unit_price / 100)
-                ) AS grand_total
+                ) AS grand_total,
+                GROUP_CONCAT(
+                    DISTINCT CONCAT(
+                        customers.customer_name,
+                        " (",
+                        customer_orders.customer_qty,
+                        ")"
+                    )
+                    ORDER BY customers.customer_name ASC
+                    SEPARATOR "|||"
+                ) AS customer_names
             ')
             ->join('sales', 'sales.id', '=', 'sale_details.sale_id')
             ->join('products', 'products.id', '=', 'sale_details.product_id')
+            ->join('customers', 'customers.id', '=', 'sales.customer_id')
+            ->joinSub(
+                SaleDetails::query()
+                    ->selectRaw('
+                        sale_details.product_id,
+                        sales.customer_id,
+                        SUM(sale_details.quantity) AS customer_qty
+                    ')
+                    ->join('sales', 'sales.id', '=', 'sale_details.sale_id')
+                    ->whereDate('sales.date', '>=', $this->start_date)
+                    ->whereDate('sales.date', '<=', $this->end_date)
+                    ->when($this->customer_id, function ($query) {
+                        $query->where('sales.customer_id', $this->customer_id);
+                    })
+                    ->groupBy('sale_details.product_id', 'sales.customer_id'),
+                'customer_orders',
+                function ($join) {
+                    $join->on('customer_orders.product_id', '=', 'sale_details.product_id')
+                        ->on('customer_orders.customer_id', '=', 'sales.customer_id');
+                }
+            )
             ->whereDate('sales.date', '>=', $this->start_date)
             ->whereDate('sales.date', '<=', $this->end_date)
             ->when($this->customer_id, function ($query) {

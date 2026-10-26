@@ -83,8 +83,7 @@
                             @foreach ($sale->saleDetails as $detail)
                                 <li>
                                     {{ $detail->product->product_name ?? 'Produk tidak ditemukan' }}
-                                    ({{ number_format($detail->quantity, 0, ',', '.') }}
-                                    {{ $detail->product->product_unit ?? '' }})
+                                    ({{ number_format($detail->quantity, 0, ',', '.') }})
                                 </li>
                             @endforeach
                         </ol>
