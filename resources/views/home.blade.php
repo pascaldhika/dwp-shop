@@ -8,6 +8,83 @@
     </ol>
 @endsection
 
+<style>
+    /* Tabel peringkat */
+    .ranking-table {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .ranking-table thead th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        font-size: 12px;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding: 12px 10px;
+    }
+
+    .ranking-table tbody td {
+        padding: 10px;
+        vertical-align: middle;
+    }
+
+    .ranking-table .rank-number {
+        width: 50px;
+    }
+
+    .ranking-table .rank-orders {
+        width: 90px;
+    }
+
+    .ranking-table .rank-total {
+        min-width: 130px;
+    }
+
+    .ranking-table .customer-name {
+        min-width: 120px;
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+
+    /* Responsif untuk HP */
+    @media (max-width: 767.98px) {
+        .ranking-section > div {
+            margin-bottom: 16px;
+        }
+
+        .ranking-section .card-header {
+            padding: 12px !important;
+        }
+
+        .ranking-section .card-header h6 {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .ranking-table {
+            font-size: 12px;
+        }
+
+        .ranking-table thead th {
+            font-size: 11px;
+            padding: 10px 8px;
+        }
+
+        .ranking-table tbody td {
+            padding: 9px 8px;
+        }
+
+        .ranking-table .rank-total {
+            min-width: 115px;
+        }
+
+        .ranking-section .card-footer {
+            padding: 10px 12px;
+        }
+    }
+</style>
+
 @section('content')
     <div class="container-fluid">
         @can('show_total_stats')
@@ -117,7 +194,7 @@
         @endcan -->
 
         {{-- Peringkat Pelanggan Bulan Ini --}}
-        <div class="row mt-4">
+        <div class="row mt-4 ranking-section">
 
             {{-- Pelanggan Sudah Memesan --}}
             <div class="col-lg-6 mb-4">
@@ -136,19 +213,13 @@
 
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped mb-0">
+                            <table class="table table-hover table-striped mb-0 ranking-table">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="text-center" style="width: 60px;">
-                                            No.
-                                        </th>
+                                        <th class="text-center rank-number">No.</th>
                                         <th>Nama Pelanggan</th>
-                                        <th class="text-center">
-                                            Jumlah Pesanan
-                                        </th>
-                                        <th class="text-right">
-                                            Total Transaksi
-                                        </th>
+                                        <th class="text-center rank-orders">Pesanan</th>
+                                        <th class="text-right rank-total">Total Transaksi</th>
                                     </tr>
                                 </thead>
 
@@ -227,16 +298,12 @@
 
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped mb-0">
+                            <table class="table table-hover table-striped mb-0 ranking-table">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="text-center" style="width: 60px;">
-                                            No.
-                                        </th>
+                                        <th class="text-center rank-number">No.</th>
                                         <th>Nama Pelanggan</th>
-                                        <th class="text-center">
-                                            Status
-                                        </th>
+                                        <th class="text-center">Status</th>
                                     </tr>
                                 </thead>
 
