@@ -5,16 +5,15 @@ namespace Modules\Sale\DataTables;
 use Modules\Sale\Entities\Sale;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class SalesDataTable extends DataTable
 {
-
-    public function dataTable($query) {
+    public function dataTable($query)
+    {
         return datatables()
             ->eloquent($query)
+            ->addIndexColumn()
             ->addColumn('total_amount', function ($data) {
                 return format_currency($data->total_amount);
             })
@@ -35,19 +34,21 @@ class SalesDataTable extends DataTable
             });
     }
 
-    public function query(Sale $model) {
+    public function query(Sale $model)
+    {
         return $model->newQuery();
     }
 
-    public function html() {
+    public function html()
+    {
         return $this->builder()
             ->setTableId('sales-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom("<'row'<'col-md-3'l><'col-md-5 mb-2'B><'col-md-4'f>> .
-                                'tr' .
-                                <'row'<'col-md-5'i><'col-md-7 mt-2'p>>")
-            ->orderBy(0, 'desc')
+                    'tr' .
+                    <'row'<'col-md-5'i><'col-md-7 mt-2'p>>")
+            ->orderBy(1, 'desc')
             ->buttons(
                 Button::make('excel')
                     ->text('<i class="bi bi-file-earmark-excel-fill"></i> Excel'),
@@ -60,8 +61,18 @@ class SalesDataTable extends DataTable
             );
     }
 
-    protected function getColumns() {
+    protected function getColumns()
+    {
         return [
+            Column::computed('DT_RowIndex')
+                ->title('No.')
+                ->orderable(false)
+                ->searchable(false)
+                ->exportable(false)
+                ->printable(false)
+                ->width(50)
+                ->className('text-center align-middle'),
+
             Column::make('date')
                 ->title('Tanggal')
                 ->className('text-center align-middle'),
@@ -71,6 +82,7 @@ class SalesDataTable extends DataTable
                 ->className('text-center align-middle'),
 
             Column::computed('status')
+                ->title('Status')
                 ->className('text-center align-middle'),
 
             Column::computed('total_amount')
@@ -78,9 +90,11 @@ class SalesDataTable extends DataTable
                 ->className('text-center align-middle'),
 
             Column::computed('payment_status')
+                ->title('Status Pembayaran')
                 ->className('text-center align-middle'),
 
             Column::computed('action')
+                ->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
                 ->className('text-center align-middle'),
@@ -90,7 +104,8 @@ class SalesDataTable extends DataTable
         ];
     }
 
-    protected function filename(): string {
+    protected function filename(): string
+    {
         return 'Sales_' . date('YmdHis');
     }
 }

@@ -115,6 +115,172 @@
             </div>
         </div>
         @endcan -->
+
+        {{-- Peringkat Pelanggan Bulan Ini --}}
+        <div class="row mt-4">
+
+            {{-- Pelanggan Sudah Memesan --}}
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-white py-3">
+                        <h6 class="mb-0 font-weight-bold text-success">
+                            <i class="bi bi-trophy-fill mr-2"></i>
+                            Pelanggan Sudah Pesan
+                        </h6>
+
+                        <small class="text-muted">
+                            Periode {{ now()->translatedFormat('F Y') }}
+                        </small>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 60px;">
+                                            No.
+                                        </th>
+                                        <th>Nama Pelanggan</th>
+                                        <th class="text-center">
+                                            Jumlah Pesanan
+                                        </th>
+                                        <th class="text-right">
+                                            Total Transaksi
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @forelse ($customersOrdered as $customer)
+                                        <tr>
+                                            <td class="text-center align-middle">
+                                                @if ($loop->iteration == 1)
+                                                    <span class="badge badge-success">
+                                                        1
+                                                    </span>
+                                                @elseif ($loop->iteration == 2)
+                                                    <span class="badge badge-secondary">
+                                                        2
+                                                    </span>
+                                                @elseif ($loop->iteration == 3)
+                                                    <span class="badge badge-warning">
+                                                        3
+                                                    </span>
+                                                @else
+                                                    {{ $loop->iteration }}
+                                                @endif
+                                            </td>
+
+                                            <td class="align-middle">
+                                                {{ $customer->customer_name }}
+                                            </td>
+
+                                            <td class="text-center align-middle">
+                                                <span class="badge badge-info">
+                                                    {{ $customer->orders_count }} kali
+                                                </span>
+                                            </td>
+
+                                            <td class="text-right align-middle">
+                                                {{ format_currency(($customer->monthly_total ?? 0) / 100) }}
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4 text-muted">
+                                                Belum ada pelanggan yang memesan bulan ini.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white">
+                        <small class="text-muted">
+                            Total pelanggan sudah memesan:
+                            <strong>{{ $customersOrdered->count() }}</strong>
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+
+
+            {{-- Pelanggan Belum Memesan --}}
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-header bg-white py-3">
+                        <h6 class="mb-0 font-weight-bold text-danger">
+                            <i class="bi bi-person-x-fill mr-2"></i>
+                            Pelanggan Belum Pesan
+                        </h6>
+
+                        <small class="text-muted">
+                            Periode {{ now()->translatedFormat('F Y') }}
+                        </small>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 60px;">
+                                            No.
+                                        </th>
+                                        <th>Nama Pelanggan</th>
+                                        <th class="text-center">
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @forelse ($customersNotOrdered as $customer)
+                                        <tr>
+                                            <td class="text-center align-middle">
+                                                {{ $loop->iteration }}
+                                            </td>
+
+                                            <td class="align-middle">
+                                                {{ $customer->customer_name }}
+                                            </td>
+
+                                            <td class="text-center align-middle">
+                                                <span class="badge badge-danger">
+                                                    Belum Pesan
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center py-4 text-success">
+                                                <i class="bi bi-check-circle-fill mr-1"></i>
+                                                Semua pelanggan sudah memesan.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white">
+                        <small class="text-muted">
+                            Total pelanggan belum memesan:
+                            <strong>{{ $customersNotOrdered->count() }}</strong>
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 @endsection
 

@@ -4,6 +4,8 @@ namespace Modules\Sale\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\People\Entities\Customer;
 
 class Sale extends Model
 {
@@ -66,5 +68,10 @@ class Sale extends Model
 
     public function getDiscountAmountAttribute($value) {
         return $value / 100;
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 }

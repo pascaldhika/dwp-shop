@@ -6,11 +6,12 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Modules\Sale\Entities\Sale;
 use Modules\Sale\Entities\SalePayment;
+use Modules\People\Entities\Customer;
 
 class HomeController extends Controller
 {
 
-        public function index()
+    public function index()
     {
         // =========================
         // TOTAL KESELURUHAN
@@ -53,6 +54,30 @@ class HomeController extends Controller
         $monthly_revenue = $monthly_sales / 100;
         $monthly_profit = $monthly_revenue - $monthly_product_costs;
 
+        // Peringkat pelanggan yang sudah melakukan pemesanan bulan ini
+        $customersOrdered = Customer::query()
+            ->withCount([
+                'sales as orders_count' => function ($query) use ($startOfMonth, $endOfMonth) {
+                    $query->whereBetween('date', [$startOfMonth, $endOfMonth]);
+                }
+            ])
+            ->withSum([
+                'sales as monthly_total' => function ($query) use ($startOfMonth, $endOfMonth) {
+                    $query->whereBetween('date', [$startOfMonth, $endOfMonth]);
+                }
+            ], 'total_amount')
+            ->having('orders_count', '>', 0)
+            ->orderByDesc('orders_count')
+            ->orderByDesc('monthly_total')
+            ->get();
+
+        // Daftar pelanggan yang belum melakukan pemesanan bulan ini
+        $customersNotOrdered = Customer::query()
+            ->whereDoesntHave('sales', function ($query) use ($startOfMonth, $endOfMonth) {
+                $query->whereBetween('date', [$startOfMonth, $endOfMonth]);
+            })
+            ->orderBy('customer_name')
+            ->get();
 
         return view('home', [
             // Keseluruhan
@@ -62,6 +87,9 @@ class HomeController extends Controller
             // Bulan ini
             'monthly_revenue' => $monthly_revenue,
             'monthly_profit'  => $monthly_profit,
+
+            'customersOrdered' => $customersOrdered,
+            'customersNotOrdered' => $customersNotOrdered
         ]);
     }
 
