@@ -59,7 +59,8 @@ class SalesReport extends Component
             ->when($this->payment_status, function ($query) {
                 return $query->where('payment_status', $this->payment_status);
             })
-            ->orderBy('date', 'desc');
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc');
     }
 
     
@@ -88,7 +89,7 @@ class SalesReport extends Component
 
         return response()->streamDownload(
             fn () => print($pdf->output()),
-            'laporan-penjualan.pdf'
+            'laporan-penjualan-' . now()->format('Ymd_His_u') . '.pdf'
         );
     }
 }

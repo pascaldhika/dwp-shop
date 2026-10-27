@@ -100,6 +100,7 @@ class SalesPerProductReport extends Component
                 'products.product_name',
                 'products.product_unit'
             )
+            ->orderByRaw('SUM(sale_details.quantity) DESC')
             ->orderBy('products.product_name', 'asc');
     }
 
@@ -153,7 +154,7 @@ class SalesPerProductReport extends Component
 
         return response()->streamDownload(
             fn () => print($pdf->output()),
-            'laporan-penjualan-per-produk.pdf'
+            'laporan-penjualan-per-produk-' . now()->format('Ymd_His_u') . '.pdf'
         );
     }
 
