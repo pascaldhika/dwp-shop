@@ -23,7 +23,7 @@ class HomeController extends Controller
         foreach (Sale::completed()->with('saleDetails')->get() as $sale) {
             foreach ($sale->saleDetails as $saleDetail) {
                 if (!is_null($saleDetail->product)) {
-                    $product_costs += $saleDetail->product->product_cost * $saleDetail->quantity;
+                    $product_costs += (($saleDetail->purchase_price > 0) ? $saleDetail->purchase_price : $saleDetail->product->product_cost) * $saleDetail->quantity;
                 }
             }
         }
@@ -46,7 +46,7 @@ class HomeController extends Controller
             foreach ($sale->saleDetails as $saleDetail) {
                 if (!is_null($saleDetail->product)) {
                     $monthly_product_costs +=
-                        $saleDetail->product->product_cost * $saleDetail->quantity;
+                        (($saleDetail->purchase_price > 0) ? $saleDetail->purchase_price : $saleDetail->product->product_cost) * $saleDetail->quantity;
                 }
             }
         }

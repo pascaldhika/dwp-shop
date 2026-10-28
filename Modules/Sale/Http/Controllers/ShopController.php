@@ -65,6 +65,7 @@ class ShopController extends Controller
 
                 'options' => [
                     'code' => $product->product_code,
+                    'purchase_price' => $product->product_price,
                     'unit_price' => $product->product_price,
                     'sub_total' => $product->product_price * $item['quantity'],
                     'product_discount' => 0,
@@ -147,6 +148,7 @@ class ShopController extends Controller
                     'quantity' => $cart_item->qty,
 
                     'price' => $cart_item->price * 100,
+                    'purchase_price' => $cart_item->options->unit_price * 100,
                     'unit_price' => $cart_item->options->unit_price * 100,
                     'sub_total' => $cart_item->options->sub_total * 100,
 
@@ -182,7 +184,7 @@ class ShopController extends Controller
             }
         });
 
-        toast('POS Sale Created!', 'success');
+        // toast('POS Sale Created!', 'success');
 
         return response()->json([
             'success' => true,
