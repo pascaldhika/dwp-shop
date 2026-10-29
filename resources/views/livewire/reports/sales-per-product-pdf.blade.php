@@ -63,6 +63,8 @@
                 <th>No</th>
                 <th>Gambar</th>
                 <th>Nama Produk</th>
+                <th>Harga Beli</th>
+                <th>Harga Jual</th>
                 <th>Total</th>
                 <th>Pelanggan</th>
             </tr>
@@ -79,6 +81,8 @@
                         @endif
                     </td>
                     <td>{{ $sale->product_name }}</td>
+                    <td class="text-end text-nowrap">{{ format_currency((($sale->purchase_price > 0) ? $sale->purchase_price : $sale->unit_price)) }}</td>
+                    <td class="text-end text-nowrap">{{ format_currency($sale->unit_price) }}</td>
                     <td>
                         {{ number_format($sale->total_qty, 0, ',', '.') }}
                     </td>
@@ -96,7 +100,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="center">
+                    <td colspan="7" class="center">
                         Tidak ada data penjualan.
                     </td>
                 </tr>

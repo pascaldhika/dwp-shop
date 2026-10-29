@@ -51,6 +51,8 @@ class SalesPerProductReport extends Component
                 products.product_code,
                 products.product_name,
                 products.product_unit,
+                sale_details.purchase_price,
+                sale_details.unit_price,
                 SUM(sale_details.quantity) AS total_qty,
                 SUM(
                     sale_details.quantity * (sale_details.unit_price / 100)
@@ -98,7 +100,9 @@ class SalesPerProductReport extends Component
                 'products.id',
                 'products.product_code',
                 'products.product_name',
-                'products.product_unit'
+                'products.product_unit',
+                'sale_details.purchase_price',
+                'sale_details.unit_price'
             )
             ->orderByRaw('SUM(sale_details.quantity) DESC')
             ->orderBy('products.product_name', 'asc');

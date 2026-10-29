@@ -23,9 +23,9 @@
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th class="align-middle">Product</th>
-                        <th class="align-middle text-center">Purchase Price</th>
-                        <th class="align-middle text-center">Net Unit Price</th>
+                        <th class="align-middle">Nama Produk</th>
+                        <th class="align-middle text-center">Harga Beli</th>
+                        <th class="align-middle text-center">Harga Jual</th>
                         <th class="align-middle text-center">Stock</th>
                         <th class="align-middle text-center">Quantity</th>
                         <th class="align-middle text-center">Discount</th>
